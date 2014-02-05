@@ -125,13 +125,12 @@
 			children = (
 				5F4B4F1518A26B03008FF741 /* ESTAppDelegate.h */,
 				5F4B4F1618A26B03008FF741 /* ESTAppDelegate.m */,
-				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
-				5F4B4F0D18A26B03008FF741 /* Supporting Files */,
 				5F4B4F3918A26CF4008FF741 /* ESTViewController.h */,
 				5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */,
+				5FBB0EFF18A2F90900164DD2 /* Renderer */,
 				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
-				5FBB0EFC18A2F03900164DD2 /* ESTElectrodesRenderer.h */,
-				5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */,
+				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
+				5F4B4F0D18A26B03008FF741 /* Supporting Files */,
 			);
 			path = EITViewMirror;
 			sourceTree = "<group>";
@@ -163,6 +162,15 @@
 				5F4B4F2818A26B03008FF741 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5FBB0EFF18A2F90900164DD2 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				5FBB0EFC18A2F03900164DD2 /* ESTElectrodesRenderer.h */,
+				5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */,
+			);
+			name = Renderer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

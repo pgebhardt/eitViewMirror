@@ -53,12 +53,12 @@
 -(void)update {
     // set projection matrix
     float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), aspect, 0.0, 10.0);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(40.0), aspect, 0.0, 10.0);
     self.baseEffect.transform.projectionMatrix = projectionMatrix;
     
     // set model view matrix
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -3.0);
-    _rotation += 90.0 * self.timeSinceLastUpdate;
+    _rotation += 45.0 * self.timeSinceLastUpdate;
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0.0, 0.0, 1.0);
     self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
     
