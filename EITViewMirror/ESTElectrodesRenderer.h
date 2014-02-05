@@ -12,7 +12,7 @@
 @interface ESTElectrodesRenderer : NSObject
 
 -(id)initWithCount:(NSInteger)count andLength:(CGFloat)length;
--(void)drawInRect:(CGRect)rect withBaseEffect:(GLKBaseEffect*)baseEffect;
+-(void)drawInRect:(CGRect)rect;
 
 @property (nonatomic, assign, readonly) NSInteger count;
 

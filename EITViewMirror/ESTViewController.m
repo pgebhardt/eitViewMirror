@@ -45,7 +45,7 @@
     glClear(GL_COLOR_BUFFER_BIT);
     
     // draw electrodes
-    [self.electrodesRenderer drawInRect:rect withBaseEffect:self.baseEffect];
+    [self.electrodesRenderer drawInRect:rect];
 }
 
 #pragma mark - GLKViewController
