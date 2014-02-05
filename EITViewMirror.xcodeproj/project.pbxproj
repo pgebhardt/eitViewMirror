@@ -19,6 +19,8 @@
 		5F4B4F2218A26B03008FF741 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F0A18A26B03008FF741 /* UIKit.framework */; };
 		5F4B4F2A18A26B03008FF741 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F4B4F2818A26B03008FF741 /* InfoPlist.strings */; };
 		5F4B4F2C18A26B03008FF741 /* EITViewMirrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F2B18A26B03008FF741 /* EITViewMirrorTests.m */; };
+		5F4B4F3618A26B46008FF741 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3518A26B46008FF741 /* OpenGLES.framework */; };
+		5F4B4F3818A26B4B008FF741 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3718A26B4B008FF741 /* GLKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		5F4B4F2718A26B03008FF741 /* EITViewMirrorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EITViewMirrorTests-Info.plist"; sourceTree = "<group>"; };
 		5F4B4F2918A26B03008FF741 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5F4B4F2B18A26B03008FF741 /* EITViewMirrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EITViewMirrorTests.m; sourceTree = "<group>"; };
+		5F4B4F3518A26B46008FF741 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		5F4B4F3718A26B4B008FF741 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F4B4F3818A26B4B008FF741 /* GLKit.framework in Frameworks */,
+				5F4B4F3618A26B46008FF741 /* OpenGLES.framework in Frameworks */,
 				5F4B4F0918A26B03008FF741 /* CoreGraphics.framework in Frameworks */,
 				5F4B4F0B18A26B03008FF741 /* UIKit.framework in Frameworks */,
 				5F4B4F0718A26B03008FF741 /* Foundation.framework in Frameworks */,
@@ -96,6 +102,8 @@
 		5F4B4F0518A26B03008FF741 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F4B4F3718A26B4B008FF741 /* GLKit.framework */,
+				5F4B4F3518A26B46008FF741 /* OpenGLES.framework */,
 				5F4B4F0618A26B03008FF741 /* Foundation.framework */,
 				5F4B4F0818A26B03008FF741 /* CoreGraphics.framework */,
 				5F4B4F0A18A26B03008FF741 /* UIKit.framework */,
@@ -192,6 +200,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = EST;
 				TargetAttributes = {
+					5F4B4F0218A26B03008FF741 = {
+						DevelopmentTeam = V8TY8K4K9P;
+					};
 					5F4B4F1D18A26B03008FF741 = {
 						TestTargetID = 5F4B4F0218A26B03008FF741;
 					};
@@ -360,6 +371,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EITViewMirror/EITViewMirror-Prefix.pch";
 				INFOPLIST_FILE = "EITViewMirror/EITViewMirror-Info.plist";
@@ -373,6 +385,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EITViewMirror/EITViewMirror-Prefix.pch";
 				INFOPLIST_FILE = "EITViewMirror/EITViewMirror-Info.plist";
