@@ -65,12 +65,17 @@ const GLubyte Indices[] = {
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     GLKView* view = (GLKView*)self.view;
     view.context = self.context;
+    view.drawableMultisample = GLKViewDrawableMultisample4X;
 
     [self setupGL];
 }
 
 -(void)dealloc {
     [self tearDown];
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    self.paused = !self.paused;
 }
 
 #pragma mark - GLKViewDelegate
