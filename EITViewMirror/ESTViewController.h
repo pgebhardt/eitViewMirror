@@ -11,5 +11,6 @@
 @interface ESTViewController : GLKViewController
 
 @property (nonatomic, strong) EAGLContext* context;
+@property (nonatomic, strong) GLKBaseEffect* baseEffect;
 
 @end
