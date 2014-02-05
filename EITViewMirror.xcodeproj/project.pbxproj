@@ -21,6 +21,8 @@
 		5F4B4F2C18A26B03008FF741 /* EITViewMirrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F2B18A26B03008FF741 /* EITViewMirrorTests.m */; };
 		5F4B4F3618A26B46008FF741 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3518A26B46008FF741 /* OpenGLES.framework */; };
 		5F4B4F3818A26B4B008FF741 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3718A26B4B008FF741 /* GLKit.framework */; };
+		5F4B4F3B18A26CF4008FF741 /* ESTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */; };
+		5F4B4F3D18A26D13008FF741 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3C18A26D13008FF741 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,9 @@
 		5F4B4F2B18A26B03008FF741 /* EITViewMirrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EITViewMirrorTests.m; sourceTree = "<group>"; };
 		5F4B4F3518A26B46008FF741 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		5F4B4F3718A26B4B008FF741 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		5F4B4F3918A26CF4008FF741 /* ESTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTViewController.h; sourceTree = "<group>"; };
+		5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTViewController.m; sourceTree = "<group>"; };
+		5F4B4F3C18A26D13008FF741 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +124,9 @@
 				5F4B4F1618A26B03008FF741 /* ESTAppDelegate.m */,
 				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
 				5F4B4F0D18A26B03008FF741 /* Supporting Files */,
+				5F4B4F3918A26CF4008FF741 /* ESTViewController.h */,
+				5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */,
+				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
 			);
 			path = EITViewMirror;
 			sourceTree = "<group>";
@@ -231,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F4B4F3D18A26D13008FF741 /* Main.storyboard in Resources */,
 				5F4B4F1118A26B03008FF741 /* InfoPlist.strings in Resources */,
 				5F4B4F1918A26B03008FF741 /* Images.xcassets in Resources */,
 			);
@@ -252,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F4B4F1318A26B03008FF741 /* main.m in Sources */,
+				5F4B4F3B18A26CF4008FF741 /* ESTViewController.m in Sources */,
 				5F4B4F1718A26B03008FF741 /* ESTAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

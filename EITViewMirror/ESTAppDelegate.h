@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
 
-@interface ESTAppDelegate : UIResponder <UIApplicationDelegate, GLKViewDelegate>
+@interface ESTAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
