@@ -8,14 +8,7 @@
 
 #import "ESTViewController.h"
 
-const GLfloat Vertices[] = {
-    1, -1, 0,
-    1, 1, 0,
-    -1, 1, 0
-};
-
 @implementation ESTViewController {
-    GLuint _vertexBuffer;
     float _rotation;
 }
 
@@ -24,35 +17,9 @@ const GLfloat Vertices[] = {
     
     // initialize shaders
     self.baseEffect = [[GLKBaseEffect alloc] init];
-    self.baseEffect.useConstantColor = YES;
-    self.baseEffect.constantColor = GLKVector4Make(0.0, 0.0, 0.0, 1.0);
     
-    // fill vertex buffer
-    GLfloat* electrodes = malloc(sizeof(GLfloat) * 2 * 2 * 36);
-    float delta_angle = 2.0 * M_PI / 36.0;
-    for (int i = 0; i < 36; ++i) {
-        float angle = (float)i * delta_angle;
-        electrodes[0 * 2 + 0 + i * 2 * 2] = cosf(angle);
-        electrodes[0 * 2 + 1 + i * 2 * 2] = sinf(angle);
-        electrodes[1 * 2 + 0 + i * 2 * 2] = cosf(angle + 0.1);
-        electrodes[1 * 2 + 1 + i * 2 * 2] = sinf(angle + 0.1);
-    }
-    
-    // init vertex and index buffer for square
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * 2 * 36, electrodes, GL_STATIC_DRAW);
-    free(electrodes);
-}
-
--(void)tearDown {
-    [EAGLContext setCurrentContext:self.context];
-    
-    // delete vertex buffer
-    glDeleteBuffers(1, &_vertexBuffer);
-    
-    // release shadres
-    self.baseEffect = nil;
+    // create electrode renderer
+    self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:36 andLength:0.1];
 }
 
 -(void)viewDidLoad {
@@ -67,10 +34,6 @@ const GLfloat Vertices[] = {
     [self setupGL];
 }
 
--(void)dealloc {
-    [self tearDown];
-}
-
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     self.paused = !self.paused;
 }
@@ -81,12 +44,8 @@ const GLfloat Vertices[] = {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    // draw square
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glDrawArrays(GL_LINES, 0, 2 * 36);
+    // draw electrodes
+    [self.electrodesRenderer drawInRect:rect withBaseEffect:self.baseEffect];
 }
 
 #pragma mark - GLKViewController

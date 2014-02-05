@@ -23,6 +23,7 @@
 		5F4B4F3818A26B4B008FF741 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3718A26B4B008FF741 /* GLKit.framework */; };
 		5F4B4F3B18A26CF4008FF741 /* ESTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */; };
 		5F4B4F3D18A26D13008FF741 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3C18A26D13008FF741 /* Main.storyboard */; };
+		5FBB0EFE18A2F03900164DD2 /* ESTElectrodesRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		5F4B4F3918A26CF4008FF741 /* ESTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTViewController.h; sourceTree = "<group>"; };
 		5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTViewController.m; sourceTree = "<group>"; };
 		5F4B4F3C18A26D13008FF741 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5FBB0EFC18A2F03900164DD2 /* ESTElectrodesRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTElectrodesRenderer.h; sourceTree = "<group>"; };
+		5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTElectrodesRenderer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,8 @@
 				5F4B4F3918A26CF4008FF741 /* ESTViewController.h */,
 				5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */,
 				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
+				5FBB0EFC18A2F03900164DD2 /* ESTElectrodesRenderer.h */,
+				5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */,
 			);
 			path = EITViewMirror;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 				5F4B4F1318A26B03008FF741 /* main.m in Sources */,
 				5F4B4F3B18A26CF4008FF741 /* ESTViewController.m in Sources */,
 				5F4B4F1718A26B03008FF741 /* ESTAppDelegate.m in Sources */,
+				5FBB0EFE18A2F03900164DD2 /* ESTElectrodesRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +469,7 @@
 				5F4B4F3118A26B03008FF741 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5F4B4F3218A26B03008FF741 /* Build configuration list for PBXNativeTarget "EITViewMirrorTests" */ = {
 			isa = XCConfigurationList;
@@ -471,6 +478,7 @@
 				5F4B4F3418A26B03008FF741 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

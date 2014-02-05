@@ -7,10 +7,12 @@
 //
 
 #import <GLKit/GLKit.h>
+#import "ESTElectrodesRenderer.h"
 
 @interface ESTViewController : GLKViewController
 
 @property (nonatomic, strong) EAGLContext* context;
 @property (nonatomic, strong) GLKBaseEffect* baseEffect;
+@property (nonatomic, strong) ESTElectrodesRenderer* electrodesRenderer;
 
 @end
