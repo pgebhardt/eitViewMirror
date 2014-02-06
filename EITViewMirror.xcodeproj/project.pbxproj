@@ -132,18 +132,16 @@
 		5F4B4F0C18A26B03008FF741 /* EITViewMirror */ = {
 			isa = PBXGroup;
 			children = (
-				5F4B4F1518A26B03008FF741 /* ESTAppDelegate.h */,
-				5F4B4F1618A26B03008FF741 /* ESTAppDelegate.m */,
 				5F4B4F3918A26CF4008FF741 /* ESTImageViewController.h */,
 				5F4B4F3A18A26CF4008FF741 /* ESTImageViewController.m */,
-				5FBB0EFF18A2F90900164DD2 /* Renderer */,
-				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
-				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
-				5F4B4F0D18A26B03008FF741 /* Supporting Files */,
 				5F6C4E2F18A38439004CE32E /* ESTConnectViewController.h */,
 				5F6C4E3018A38439004CE32E /* ESTConnectViewController.m */,
 				5F6C4E3218A388C9004CE32E /* ESTMirrorClient.h */,
 				5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */,
+				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
+				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
+				5FBB0EFF18A2F90900164DD2 /* Renderer */,
+				5F4B4F0D18A26B03008FF741 /* Supporting Files */,
 			);
 			path = EITViewMirror;
 			sourceTree = "<group>";
@@ -151,6 +149,8 @@
 		5F4B4F0D18A26B03008FF741 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5F4B4F1518A26B03008FF741 /* ESTAppDelegate.h */,
+				5F4B4F1618A26B03008FF741 /* ESTAppDelegate.m */,
 				5F4B4F0E18A26B03008FF741 /* EITViewMirror-Info.plist */,
 				5F4B4F0F18A26B03008FF741 /* InfoPlist.strings */,
 				5F4B4F1218A26B03008FF741 /* main.m */,

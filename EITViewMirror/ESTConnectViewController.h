@@ -14,11 +14,12 @@
 
 @interface ESTConnectViewController : UIViewController <UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *addressField;
 @property (nonatomic, strong) ESTMirrorClient* mirrorClient;
 @property (nonatomic, strong) ESTElectrodesRenderer* electrodesRenderer;
 @property (nonatomic, strong) ESTImpedanceRenderer* impedanceRenderer;
 @property (nonatomic, strong) EAGLContext* context;
+
+@property (weak, nonatomic) IBOutlet UITextField *addressField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalPostitionConstrain;
 
 - (IBAction)connect:(id)sender;
