@@ -20,6 +20,9 @@
 }
 
 - (IBAction)connect:(id)sender {
+    // hide keyboard
+    [self.addressField resignFirstResponder];
+    
     // test mirror client
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003", self.addressField.text]];
     self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
@@ -29,10 +32,18 @@
         // create electrodes renderer
         self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:electodesCount andLength:length];
     
-        // execute notification on main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"showImageView" sender:self];
-        });
+        // request
+        [self.mirrorClient requestVetricesConfig:^(NSData* data, NSError *error) {
+            [EAGLContext setCurrentContext:self.context];
+            
+            // create impedance renderer
+            self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithData:data];
+            
+            // execute notification on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self performSegueWithIdentifier:@"showImageView" sender:self];
+            });
+        }];
     }];
 }
 
@@ -41,7 +52,14 @@
         ESTImageViewController* destinationViewController = (ESTImageViewController*)segue.destinationViewController;
         destinationViewController.context = self.context;
         destinationViewController.electrodesRenderer = self.electrodesRenderer;
+        destinationViewController.impedanceRenderer = self.impedanceRenderer;
     }
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self connect:self];
+    
+    return YES;
 }
 
 @end

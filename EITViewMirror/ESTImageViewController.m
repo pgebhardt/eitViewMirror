@@ -38,8 +38,9 @@
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    // draw electrodes
+    // draw renderer
     [self.electrodesRenderer drawInRect:rect];
+    [self.impedanceRenderer drawInRect:rect];
 }
 
 #pragma mark - GLKViewController

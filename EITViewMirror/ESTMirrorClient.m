@@ -29,10 +29,26 @@
         if (!error) {
             // extract data
             NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            NSLog(@"%@", body);
             
             // call completion handler
             completionHandler([body[@"count"] intValue], [body[@"length"] floatValue], error);
+        }
+    }] resume];
+}
+
+-(void)requestVetricesConfig:(void (^)(NSData*, NSError *))completionHandler {
+    // request electrodes configuration from server
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/vertices", self.hostAddress]]];
+    
+    NSURLSession* urlSession = [NSURLSession sharedSession];
+    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            // extract data
+            CGFloat* vertices = (CGFloat*)data.bytes;
+            NSLog(@"%f, %f, %f", vertices[0], vertices[1], vertices[2]);
+
+            // call completion handler
+            completionHandler(data, error);
         }
     }] resume];
 }
