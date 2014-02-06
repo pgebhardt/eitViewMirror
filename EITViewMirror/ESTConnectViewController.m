@@ -33,16 +33,18 @@
         self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:electodesCount andLength:length];
     
         // request
-        [self.mirrorClient requestVetricesConfig:^(NSData* data, NSError *error) {
-            [EAGLContext setCurrentContext:self.context];
-            
-            // create impedance renderer
-            self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithData:data];
-            
-            // execute notification on main thread
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self performSegueWithIdentifier:@"showImageView" sender:self];
-            });
+        [self.mirrorClient requestVetricesConfig:^(NSData* vertexData, NSError *error) {
+            [self.mirrorClient requestColorConfig:^(NSData *colorData, NSError *error) {
+                [EAGLContext setCurrentContext:self.context];
+                
+                // create impedance renderer
+                self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithVertexData:vertexData andColorData:colorData];
+                
+                // execute notification on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self performSegueWithIdentifier:@"showImageView" sender:self];
+                });
+            }];
         }];
     }];
 }

@@ -43,10 +43,19 @@
     NSURLSession* urlSession = [NSURLSession sharedSession];
     [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
-            // extract data
-            CGFloat* vertices = (CGFloat*)data.bytes;
-            NSLog(@"%f, %f, %f", vertices[0], vertices[1], vertices[2]);
+            // call completion handler
+            completionHandler(data, error);
+        }
+    }] resume];
+}
 
+-(void)requestColorConfig:(void (^)(NSData *, NSError *))completionHandler {
+    // request electrodes configuration from server
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/colors", self.hostAddress]]];
+    
+    NSURLSession* urlSession = [NSURLSession sharedSession];
+    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
             // call completion handler
             completionHandler(data, error);
         }

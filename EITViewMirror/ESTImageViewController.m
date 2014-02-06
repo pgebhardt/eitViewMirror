@@ -19,6 +19,8 @@
     
     // initialize shaders
     self.baseEffect = [[GLKBaseEffect alloc] init];
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 -(void)viewDidLoad {
@@ -28,7 +30,11 @@
     GLKView* view = (GLKView*)self.view;
     view.context = self.context;
     view.drawableMultisample = GLKViewDrawableMultisample4X;
-
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    
+    // init properties
+    _xAxisRotation = 180.0;
+    
     [self setupGL];
 }
 
@@ -36,7 +42,7 @@
 
 -(void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     glClearColor(1.0, 1.0, 1.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // draw renderer
     [self.electrodesRenderer drawInRect:rect];
@@ -48,11 +54,11 @@
 -(void)update {
     // set projection matrix
     float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(40.0), aspect, 0.0, 10.0);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(50.0), aspect, 0.1, 100.0);
     self.baseEffect.transform.projectionMatrix = projectionMatrix;
     
     // set model view matrix
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -3.0);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -2.5);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_xAxisRotation), 1.0, 0.0, 0.0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_zAxisRotation), 0.0, 0.0, 1.0);
     self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
