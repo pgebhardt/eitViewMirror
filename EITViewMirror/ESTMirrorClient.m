@@ -49,9 +49,35 @@
     }] resume];
 }
 
+-(void)requestVetricesUpdate:(void (^)(NSData*, NSError *))completionHandler {
+    // request electrodes configuration from server
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/vertices-update", self.hostAddress]]];
+    
+    NSURLSession* urlSession = [NSURLSession sharedSession];
+    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            // call completion handler
+            completionHandler(data, error);
+        }
+    }] resume];
+}
+
 -(void)requestColorConfig:(void (^)(NSData *, NSError *))completionHandler {
     // request electrodes configuration from server
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/colors", self.hostAddress]]];
+    
+    NSURLSession* urlSession = [NSURLSession sharedSession];
+    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            // call completion handler
+            completionHandler(data, error);
+        }
+    }] resume];
+}
+
+-(void)requestColorUpdate:(void (^)(NSData *, NSError *))completionHandler {
+    // request electrodes configuration from server
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/colors-update", self.hostAddress]]];
     
     NSURLSession* urlSession = [NSURLSession sharedSession];
     [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {

@@ -13,7 +13,8 @@
 
 -(id)initWithVertexData:(NSData*)vertexData andColorData:(NSData*)colorData;
 -(void)drawInRect:(CGRect)rect;
-
+-(void)updateVertices:(NSData*)vertexData andColors:(NSData*)colorData;
+                                                     
 @property (nonatomic, assign, readonly) NSInteger count;
 
 @end

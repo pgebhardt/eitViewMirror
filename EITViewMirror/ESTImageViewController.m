@@ -12,6 +12,7 @@
     CGPoint _oldTouchPoint;
     float _xAxisRotation;
     float _zAxisRotation;
+    BOOL _updateing;
 }
 
 -(void)setupGL {
@@ -33,9 +34,24 @@
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     // init properties
-    _xAxisRotation = 180.0;
+    _updateing = NO;
     
     [self setupGL];
+}
+
+-(void)updateImpedanceRenderer {
+    // request
+    _updateing = YES;
+    [self.mirrorClient requestVetricesUpdate:^(NSData* vertexData, NSError *error) {
+        [self.mirrorClient requestColorUpdate:^(NSData *colorData, NSError *error) {
+            [EAGLContext setCurrentContext:self.context];
+            
+            // update impedance renderer
+            [self.impedanceRenderer updateVertices:vertexData andColors:colorData];    
+            
+            _updateing = NO;
+        }];
+    }];
 }
 
 #pragma mark - GLKViewDelegate
@@ -54,16 +70,21 @@
 -(void)update {
     // set projection matrix
     float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(50.0), aspect, 0.1, 100.0);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(17.0), aspect, 0.1, 100.0);
     self.baseEffect.transform.projectionMatrix = projectionMatrix;
     
     // set model view matrix
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -2.5);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -7);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_xAxisRotation), 1.0, 0.0, 0.0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_zAxisRotation), 0.0, 0.0, 1.0);
     self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
     
     [self.baseEffect prepareToDraw];
+    
+    // fetch new data
+    if (!_updateing) {
+        [self updateImpedanceRenderer];
+    }
 }
 
 #pragma mark - Touch Events

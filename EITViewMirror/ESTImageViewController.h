@@ -9,6 +9,7 @@
 #import <GLKit/GLKit.h>
 #import "ESTElectrodesRenderer.h"
 #import "ESTImpedanceRenderer.h"
+#import "ESTMirrorClient.h"
 
 @interface ESTImageViewController : GLKViewController
 
@@ -16,5 +17,8 @@
 @property (nonatomic, strong) GLKBaseEffect* baseEffect;
 @property (nonatomic, strong) ESTElectrodesRenderer* electrodesRenderer;
 @property (nonatomic, strong) ESTImpedanceRenderer* impedanceRenderer;
+@property (nonatomic, strong) ESTMirrorClient* mirrorClient;
+
+-(void)updateImpedanceRenderer;
 
 @end

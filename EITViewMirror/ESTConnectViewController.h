@@ -21,5 +21,6 @@
 @property (nonatomic, strong) EAGLContext* context;
 
 - (IBAction)connect:(id)sender;
+-(void)updateImpedanceRenderer:(void (^)(NSError* error))completionHandler;
 
 @end

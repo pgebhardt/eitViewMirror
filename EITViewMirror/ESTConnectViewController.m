@@ -55,6 +55,7 @@
         destinationViewController.context = self.context;
         destinationViewController.electrodesRenderer = self.electrodesRenderer;
         destinationViewController.impedanceRenderer = self.impedanceRenderer;
+        destinationViewController.mirrorClient = self.mirrorClient;
     }
 }
 
@@ -62,6 +63,21 @@
     [self connect:self];
     
     return YES;
+}
+
+-(void)updateImpedanceRenderer:(void (^)(NSError *))completionHandler {
+    // request
+    [self.mirrorClient requestVetricesUpdate:^(NSData* vertexData, NSError *error) {
+        [self.mirrorClient requestColorUpdate:^(NSData *colorData, NSError *error) {
+            [EAGLContext setCurrentContext:self.context];
+            
+            // update impedance renderer
+            [self.impedanceRenderer updateVertices:vertexData andColors:colorData];
+            
+            // call completion handler
+            completionHandler(error);
+        }];
+    }];
 }
 
 @end

@@ -14,7 +14,9 @@
 
 -(void)requestElectrodesConfig:(void (^)(NSInteger electodesCount, CGFloat length, NSError* error))completionHandler;
 -(void)requestVetricesConfig:(void (^)(NSData* data, NSError* error))completionHandler;
+-(void)requestVetricesUpdate:(void (^)(NSData* data, NSError* error))completionHandler;
 -(void)requestColorConfig:(void (^)(NSData* data, NSError* error))completionHandler;
+-(void)requestColorUpdate:(void (^)(NSData* data, NSError* error))completionHandler;
 
 @property (nonatomic, strong) NSURL* hostAddress;
 
