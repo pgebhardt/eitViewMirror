@@ -21,8 +21,10 @@
 		5F4B4F2C18A26B03008FF741 /* EITViewMirrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F2B18A26B03008FF741 /* EITViewMirrorTests.m */; };
 		5F4B4F3618A26B46008FF741 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3518A26B46008FF741 /* OpenGLES.framework */; };
 		5F4B4F3818A26B4B008FF741 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3718A26B4B008FF741 /* GLKit.framework */; };
-		5F4B4F3B18A26CF4008FF741 /* ESTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */; };
+		5F4B4F3B18A26CF4008FF741 /* ESTImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3A18A26CF4008FF741 /* ESTImageViewController.m */; };
 		5F4B4F3D18A26D13008FF741 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3C18A26D13008FF741 /* Main.storyboard */; };
+		5F6C4E3118A38439004CE32E /* ESTConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C4E3018A38439004CE32E /* ESTConnectViewController.m */; };
+		5F6C4E3418A388C9004CE32E /* ESTMirrorClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */; };
 		5FBB0EFE18A2F03900164DD2 /* ESTElectrodesRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */; };
 /* End PBXBuildFile section */
 
@@ -55,9 +57,13 @@
 		5F4B4F2B18A26B03008FF741 /* EITViewMirrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EITViewMirrorTests.m; sourceTree = "<group>"; };
 		5F4B4F3518A26B46008FF741 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		5F4B4F3718A26B4B008FF741 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		5F4B4F3918A26CF4008FF741 /* ESTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTViewController.h; sourceTree = "<group>"; };
-		5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTViewController.m; sourceTree = "<group>"; };
+		5F4B4F3918A26CF4008FF741 /* ESTImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTImageViewController.h; sourceTree = "<group>"; };
+		5F4B4F3A18A26CF4008FF741 /* ESTImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTImageViewController.m; sourceTree = "<group>"; };
 		5F4B4F3C18A26D13008FF741 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5F6C4E2F18A38439004CE32E /* ESTConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTConnectViewController.h; sourceTree = "<group>"; };
+		5F6C4E3018A38439004CE32E /* ESTConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTConnectViewController.m; sourceTree = "<group>"; };
+		5F6C4E3218A388C9004CE32E /* ESTMirrorClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTMirrorClient.h; sourceTree = "<group>"; };
+		5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTMirrorClient.m; sourceTree = "<group>"; };
 		5FBB0EFC18A2F03900164DD2 /* ESTElectrodesRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTElectrodesRenderer.h; sourceTree = "<group>"; };
 		5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTElectrodesRenderer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -125,12 +131,16 @@
 			children = (
 				5F4B4F1518A26B03008FF741 /* ESTAppDelegate.h */,
 				5F4B4F1618A26B03008FF741 /* ESTAppDelegate.m */,
-				5F4B4F3918A26CF4008FF741 /* ESTViewController.h */,
-				5F4B4F3A18A26CF4008FF741 /* ESTViewController.m */,
+				5F4B4F3918A26CF4008FF741 /* ESTImageViewController.h */,
+				5F4B4F3A18A26CF4008FF741 /* ESTImageViewController.m */,
 				5FBB0EFF18A2F90900164DD2 /* Renderer */,
 				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
 				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
 				5F4B4F0D18A26B03008FF741 /* Supporting Files */,
+				5F6C4E2F18A38439004CE32E /* ESTConnectViewController.h */,
+				5F6C4E3018A38439004CE32E /* ESTConnectViewController.m */,
+				5F6C4E3218A388C9004CE32E /* ESTMirrorClient.h */,
+				5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */,
 			);
 			path = EITViewMirror;
 			sourceTree = "<group>";
@@ -274,9 +284,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F4B4F1318A26B03008FF741 /* main.m in Sources */,
-				5F4B4F3B18A26CF4008FF741 /* ESTViewController.m in Sources */,
+				5F4B4F3B18A26CF4008FF741 /* ESTImageViewController.m in Sources */,
+				5F6C4E3418A388C9004CE32E /* ESTMirrorClient.m in Sources */,
 				5F4B4F1718A26B03008FF741 /* ESTAppDelegate.m in Sources */,
 				5FBB0EFE18A2F03900164DD2 /* ESTElectrodesRenderer.m in Sources */,
+				5F6C4E3118A38439004CE32E /* ESTConnectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

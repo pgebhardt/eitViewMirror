@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 EST. All rights reserved.
 //
 
-#import "ESTViewController.h"
+#import "ESTImageViewController.h"
 
-@implementation ESTViewController {
+@implementation ESTImageViewController {
     CGPoint _oldTouchPoint;
     float _xAxisRotation;
     float _zAxisRotation;
@@ -19,16 +19,12 @@
     
     // initialize shaders
     self.baseEffect = [[GLKBaseEffect alloc] init];
-    
-    // create electrode renderer
-    self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:36 andLength:0.1];
 }
 
 -(void)viewDidLoad {
     [super viewDidLoad];
     
     // init gl context and assign it to main view
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     GLKView* view = (GLKView*)self.view;
     view.context = self.context;
     view.drawableMultisample = GLKViewDrawableMultisample4X;

@@ -9,7 +9,7 @@
 #import <GLKit/GLKit.h>
 #import "ESTElectrodesRenderer.h"
 
-@interface ESTViewController : GLKViewController
+@interface ESTImageViewController : GLKViewController
 
 @property (nonatomic, strong) EAGLContext* context;
 @property (nonatomic, strong) GLKBaseEffect* baseEffect;
