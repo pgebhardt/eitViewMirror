@@ -11,6 +11,9 @@
 @implementation ESTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // prevent application from entering sleep
+    application.idleTimerDisabled = YES;
+    
     return YES;
 }
 

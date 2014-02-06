@@ -16,21 +16,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Serveraddress:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P5a-t3-JvF">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Serveraddress:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P5a-t3-JvF">
                                 <rect key="frame" x="337" y="345" width="146" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="146" id="aep-ya-7rl"/>
+                                    <constraint firstAttribute="height" constant="29" id="ttJ-UF-Pwk"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="127.0.0.1" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E9B-A8-cM2">
-                                <rect key="frame" x="491" y="345" width="197" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="127.0.0.1" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E9B-A8-cM2">
+                                <rect key="frame" x="491" y="345" width="180" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="Zis-3m-crk"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cJM-Fi-kYs">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cJM-Fi-kYs">
                                 <rect key="frame" x="471" y="383" width="83" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="Tp9-6K-zIS"/>
+                                    <constraint firstAttribute="width" constant="83" id="gDH-FI-9PX"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Connect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -41,11 +52,22 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="P5a-t3-JvF" firstAttribute="leading" secondItem="757-ep-4Tu" secondAttribute="leading" constant="337" id="5Ay-B6-mDu"/>
+                            <constraint firstItem="cJM-Fi-kYs" firstAttribute="top" secondItem="E9B-A8-cM2" secondAttribute="bottom" constant="8" id="Jxt-TV-avr"/>
+                            <constraint firstItem="cJM-Fi-kYs" firstAttribute="leading" secondItem="757-ep-4Tu" secondAttribute="leading" constant="471" id="KpB-ZG-OGk"/>
+                            <constraint firstItem="Fmy-Ow-dXV" firstAttribute="top" secondItem="cJM-Fi-kYs" secondAttribute="bottom" constant="346" id="ZSi-CP-y0s"/>
+                            <constraint firstItem="cJM-Fi-kYs" firstAttribute="top" secondItem="P5a-t3-JvF" secondAttribute="bottom" constant="9" id="f3l-t5-R0h"/>
+                            <constraint firstItem="E9B-A8-cM2" firstAttribute="leading" secondItem="P5a-t3-JvF" secondAttribute="trailing" constant="8" id="hL3-6i-g5z"/>
+                            <constraint firstAttribute="trailing" secondItem="cJM-Fi-kYs" secondAttribute="trailing" constant="470" id="oNs-MS-Bht"/>
+                            <constraint firstAttribute="trailing" secondItem="E9B-A8-cM2" secondAttribute="trailing" constant="353" id="yge-Sh-Y3H"/>
+                        </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="addressField" destination="E9B-A8-cM2" id="hke-r1-LrA"/>
+                        <outlet property="verticalPostitionConstrain" destination="ZSi-CP-y0s" id="Kvu-kj-aTW"/>
                         <segue destination="3xC-nt-YNj" kind="modal" identifier="showImageView" modalPresentationStyle="fullScreen" id="qmx-lV-v59"/>
                     </connections>
                 </viewController>

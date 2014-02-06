@@ -17,13 +17,20 @@
     
     // init opengl context
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    
+    // observe keyboard
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLayoutForKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLayoutForKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+    
+    // observer address field return
+    self.addressField.delegate = self;
 }
 
 - (IBAction)connect:(id)sender {
     // hide keyboard
     [self.addressField resignFirstResponder];
     
-    // test mirror client
+    // connect to mirror server and request electrodes, vertices and colors config
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003", self.addressField.text]];
     self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
     [self.mirrorClient requestElectrodesConfig:^(NSInteger electodesCount, CGFloat length, NSError *error) {
@@ -32,7 +39,7 @@
         // create electrodes renderer
         self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:electodesCount andLength:length];
     
-        // request
+        // request vertices and colors config
         [self.mirrorClient requestVetricesConfig:^(NSData* vertexData, NSError *error) {
             [self.mirrorClient requestColorConfig:^(NSData *colorData, NSError *error) {
                 [EAGLContext setCurrentContext:self.context];
@@ -51,6 +58,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showImageView"]) {
+        // init properties of image view controller
         ESTImageViewController* destinationViewController = (ESTImageViewController*)segue.destinationViewController;
         destinationViewController.context = self.context;
         destinationViewController.electrodesRenderer = self.electrodesRenderer;
@@ -60,23 +68,27 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    // connect to server on return
     [self connect:self];
     
     return YES;
 }
 
--(void)updateImpedanceRenderer:(void (^)(NSError *))completionHandler {
-    // request
-    [self.mirrorClient requestVetricesUpdate:^(NSData* vertexData, NSError *error) {
-        [self.mirrorClient requestColorUpdate:^(NSData *colorData, NSError *error) {
-            [EAGLContext setCurrentContext:self.context];
-            
-            // update impedance renderer
-            [self.impedanceRenderer updateVertices:vertexData andColors:colorData];
-            
-            // call completion handler
-            completionHandler(error);
-        }];
+-(void)updateLayoutForKeyboard:(NSNotification *)notification {
+    // extract offset and animation duration from notification
+    CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat offset = keyboardFrame.size.width;
+    NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    // annimate update of constraint accordint to keyboard fadetime
+    if ([notification.name isEqualToString:UIKeyboardWillShowNotification]) {
+        self.verticalPostitionConstrain.constant += offset / 2;
+    }
+    else {
+        self.verticalPostitionConstrain.constant -= offset / 2;
+    }
+    [UIView animateWithDuration:animationDuration animations:^{
+        [self.view layoutIfNeeded];
     }];
 }
 

@@ -19,8 +19,10 @@
 @property (nonatomic, strong) ESTElectrodesRenderer* electrodesRenderer;
 @property (nonatomic, strong) ESTImpedanceRenderer* impedanceRenderer;
 @property (nonatomic, strong) EAGLContext* context;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalPostitionConstrain;
 
 - (IBAction)connect:(id)sender;
--(void)updateImpedanceRenderer:(void (^)(NSError* error))completionHandler;
+
+-(void)updateLayoutForKeyboard:(NSNotification*)notification;
 
 @end
