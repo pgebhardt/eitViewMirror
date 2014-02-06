@@ -9,7 +9,9 @@
 #import "ESTViewController.h"
 
 @implementation ESTViewController {
-    float _rotation;
+    CGPoint _oldTouchPoint;
+    float _xAxisRotation;
+    float _zAxisRotation;
 }
 
 -(void)setupGL {
@@ -34,10 +36,6 @@
     [self setupGL];
 }
 
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    self.paused = !self.paused;
-}
-
 #pragma mark - GLKViewDelegate
 
 -(void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
@@ -58,11 +56,43 @@
     
     // set model view matrix
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -3.0);
-    _rotation += 45.0 * self.timeSinceLastUpdate;
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0.0, 0.0, 1.0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_xAxisRotation), 1.0, 0.0, 0.0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_zAxisRotation), 0.0, 0.0, 1.0);
     self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
     
     [self.baseEffect prepareToDraw];
+}
+
+#pragma mark - Touch Events
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    // save start touch point
+    _oldTouchPoint = [touches.allObjects[0] locationInView:self.view];
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    // change rotation angles according to finger position relative to last touch event event
+    CGPoint newTouchPoint = [touches.allObjects[0] locationInView:self.view];
+    
+    _xAxisRotation += 2e-1 * (newTouchPoint.y - _oldTouchPoint.y);
+    if (fabsf(fmodf(_xAxisRotation, 360.0)) < 90.0 || fabsf(fmodf(_xAxisRotation, 360.0)) >= 270.0) {
+        if (newTouchPoint.y < self.view.bounds.size.height / 2) {
+            _zAxisRotation -= 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+        }
+        else {
+            _zAxisRotation += 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+        }
+    }
+    else {
+        if (newTouchPoint.y < self.view.bounds.size.height / 2) {
+            _zAxisRotation += 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+        }
+        else {
+            _zAxisRotation -= 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+        }
+    }
+    
+    _oldTouchPoint = newTouchPoint;
 }
 
 @end
