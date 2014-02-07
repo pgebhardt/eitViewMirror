@@ -82,10 +82,10 @@
     
     // annimate update of constraint accordint to keyboard fadetime
     if ([notification.name isEqualToString:UIKeyboardWillShowNotification]) {
-        self.verticalPostitionConstrain.constant += offset / 2;
+        self.verticalPostitionConstrain.constant += offset / 3;
     }
     else {
-        self.verticalPostitionConstrain.constant -= offset / 2;
+        self.verticalPostitionConstrain.constant -= offset / 3;
     }
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];

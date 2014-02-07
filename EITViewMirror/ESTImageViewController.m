@@ -70,11 +70,14 @@
 -(void)update {
     // set projection matrix
     float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(17.0), aspect, 0.1, 100.0);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(10.0), aspect, 0.1, 100.0);
     self.baseEffect.transform.projectionMatrix = projectionMatrix;
     
     // set model view matrix
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -7);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -20.0);
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, aspect, aspect, aspect);
+    }
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_xAxisRotation), 1.0, 0.0, 0.0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_zAxisRotation), 0.0, 0.0, 1.0);
     self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
