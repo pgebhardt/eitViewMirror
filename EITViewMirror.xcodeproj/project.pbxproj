@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F3C1EF218A51B87007E228A /* ESTAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3C1EF118A51B87007E228A /* ESTAnalysisViewController.m */; };
 		5F4B4F0718A26B03008FF741 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F0618A26B03008FF741 /* Foundation.framework */; };
 		5F4B4F0918A26B03008FF741 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F0818A26B03008FF741 /* CoreGraphics.framework */; };
 		5F4B4F0B18A26B03008FF741 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F0A18A26B03008FF741 /* UIKit.framework */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F3C1EF018A51B87007E228A /* ESTAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTAnalysisViewController.h; sourceTree = "<group>"; };
+		5F3C1EF118A51B87007E228A /* ESTAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTAnalysisViewController.m; sourceTree = "<group>"; };
 		5F4B4F0318A26B03008FF741 /* EITViewMirror.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EITViewMirror.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F4B4F0618A26B03008FF741 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5F4B4F0818A26B03008FF741 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -136,6 +139,8 @@
 				5F4B4F3A18A26CF4008FF741 /* ESTImageViewController.m */,
 				5F6C4E2F18A38439004CE32E /* ESTConnectViewController.h */,
 				5F6C4E3018A38439004CE32E /* ESTConnectViewController.m */,
+				5F3C1EF018A51B87007E228A /* ESTAnalysisViewController.h */,
+				5F3C1EF118A51B87007E228A /* ESTAnalysisViewController.m */,
 				5F6C4E3218A388C9004CE32E /* ESTMirrorClient.h */,
 				5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */,
 				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
@@ -310,6 +315,7 @@
 				5F4B4F3B18A26CF4008FF741 /* ESTImageViewController.m in Sources */,
 				5F6C4E3418A388C9004CE32E /* ESTMirrorClient.m in Sources */,
 				5F4B4F1718A26B03008FF741 /* ESTAppDelegate.m in Sources */,
+				5F3C1EF218A51B87007E228A /* ESTAnalysisViewController.m in Sources */,
 				5FBB0EFE18A2F03900164DD2 /* ESTElectrodesRenderer.m in Sources */,
 				5F6C4E3118A38439004CE32E /* ESTConnectViewController.m in Sources */,
 			);

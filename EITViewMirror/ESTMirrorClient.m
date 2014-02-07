@@ -88,4 +88,26 @@
     }] resume];
 }
 
+-(void)requestAnalysisUpdate:(void (^)(NSDictionary *, NSError *))completionHandler {
+    // request electrodes configuration from server
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/analysis-update", self.hostAddress]]];
+    
+    NSURLSession* urlSession = [NSURLSession sharedSession];
+    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            // extract data
+            NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            
+            // call completion handler
+            completionHandler(body, error);
+        }
+    }] resume];
+}
+
+-(void)requestCalibration {
+    // request electrodes configuration from server
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/calibrate", self.hostAddress]]];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:nil];
+}
+
 @end

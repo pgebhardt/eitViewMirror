@@ -64,6 +64,7 @@
         destinationViewController.electrodesRenderer = self.electrodesRenderer;
         destinationViewController.impedanceRenderer = self.impedanceRenderer;
         destinationViewController.mirrorClient = self.mirrorClient;
+        destinationViewController.navigationItem.title = self.addressField.text;
     }
 }
 

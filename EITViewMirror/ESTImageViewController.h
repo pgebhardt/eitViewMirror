@@ -19,6 +19,8 @@
 @property (nonatomic, strong) ESTImpedanceRenderer* impedanceRenderer;
 @property (nonatomic, strong) ESTMirrorClient* mirrorClient;
 
+- (IBAction)infoButtonPressed:(id)sender;
+- (IBAction)calibrateButtonPressed:(id)sender;
 -(void)updateImpedanceRenderer;
 
 @end

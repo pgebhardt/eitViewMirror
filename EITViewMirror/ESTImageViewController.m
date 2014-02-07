@@ -7,12 +7,15 @@
 //
 
 #import "ESTImageViewController.h"
+#import "ESTAnalysisViewController.h"
 
 @implementation ESTImageViewController {
     CGPoint _oldTouchPoint;
     float _xAxisRotation;
     float _zAxisRotation;
     BOOL _updateing;
+    ESTAnalysisViewController* _analysisViewController;
+    UIPopoverController* _analysisViewPopover;
 }
 
 -(void)setupGL {
@@ -35,8 +38,18 @@
     
     // init properties
     _updateing = NO;
+    _analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
+    _analysisViewPopover = [[UIPopoverController alloc] initWithContentViewController:_analysisViewController];
     
     [self setupGL];
+}
+
+- (IBAction)infoButtonPressed:(id)sender {
+    [_analysisViewPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (IBAction)calibrateButtonPressed:(id)sender {
+    [self.mirrorClient requestCalibration];
 }
 
 -(void)updateImpedanceRenderer {
@@ -87,6 +100,12 @@
     // fetch new data
     if (!_updateing) {
         [self updateImpedanceRenderer];
+        
+        if (_analysisViewPopover.isPopoverVisible) {
+            [self.mirrorClient requestAnalysisUpdate:^(NSDictionary *analysis, NSError *error) {
+                [_analysisViewController updateAnalysis:analysis];
+            }];
+        }
     }
 }
 

@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Connect View Controller-->
+        <!--Connect View Controller - EIT View Mirror-->
         <scene sceneID="lwg-UD-lrG">
             <objects>
                 <viewController id="xos-M0-Ihq" customClass="ESTConnectViewController" sceneMemberID="viewController">
@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tRl-6U-vde">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tRl-6U-vde">
                                 <rect key="frame" x="197" y="453" width="374" height="117"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -45,6 +45,10 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="117" id="jqh-wF-icM"/>
+                                    <constraint firstAttribute="width" constant="374" id="l9d-YE-HI4"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -53,7 +57,7 @@
                             <constraint firstAttribute="centerY" secondItem="tRl-6U-vde" secondAttribute="centerY" constant="0.5" id="xfG-VW-zZz"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="p0H-xo-phs"/>
+                    <navigationItem key="navigationItem" title="EIT View Mirror" id="p0H-xo-phs"/>
                     <connections>
                         <outlet property="addressField" destination="E9B-A8-cM2" id="hke-r1-LrA"/>
                         <segue destination="3xC-nt-YNj" kind="push" identifier="showImageView" id="qmx-lV-v59"/>
@@ -74,11 +78,37 @@
                     <glkView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="LSe-j7-3bG">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q7F-Oo-aRe">
+                                <rect key="frame" x="686" y="974" width="62" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="84a-Wa-00X"/>
+                                    <constraint firstAttribute="width" constant="62" id="COf-oX-jhc"/>
+                                </constraints>
+                                <state key="normal" title="Calibrate">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="calibrateButtonPressed:" destination="3xC-nt-YNj" eventType="touchUpInside" id="CmS-AS-MVS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="q7F-Oo-aRe" secondAttribute="trailing" constant="20" id="5fW-fW-fPq"/>
+                            <constraint firstItem="nBn-Wj-HH0" firstAttribute="top" secondItem="q7F-Oo-aRe" secondAttribute="bottom" constant="20" id="kFG-sn-dzf"/>
+                        </constraints>
                         <connections>
                             <outlet property="delegate" destination="3xC-nt-YNj" id="1Ft-O7-OGM"/>
                         </connections>
                     </glkView>
-                    <navigationItem key="navigationItem" id="8Kv-Pq-A0W"/>
+                    <navigationItem key="navigationItem" id="8Kv-Pq-A0W">
+                        <barButtonItem key="rightBarButtonItem" image="Info" id="iqf-TO-C1i">
+                            <connections>
+                                <action selector="infoButtonPressed:" destination="3xC-nt-YNj" id="v7E-IX-CZN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <size key="freeformSize" width="768" height="1024"/>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5R9-Kw-g83" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -104,6 +134,9 @@
             <point key="canvasLocation" x="-636" y="-26"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Info" width="25" height="25"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

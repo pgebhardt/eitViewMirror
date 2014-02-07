@@ -17,6 +17,8 @@
 -(void)requestVetricesUpdate:(void (^)(NSData* data, NSError* error))completionHandler;
 -(void)requestColorConfig:(void (^)(NSData* data, NSError* error))completionHandler;
 -(void)requestColorUpdate:(void (^)(NSData* data, NSError* error))completionHandler;
+-(void)requestAnalysisUpdate:(void (^)(NSDictionary* analysis, NSError* error))completionHandler;
+-(void)requestCalibration;
 
 @property (nonatomic, strong) NSURL* hostAddress;
 
