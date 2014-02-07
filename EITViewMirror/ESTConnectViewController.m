@@ -76,21 +76,24 @@
 }
 
 -(void)updateLayoutForKeyboard:(NSNotification *)notification {
-    // extract offset and animation duration from notification
-    CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat offset = keyboardFrame.size.width;
-    NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
-    // annimate update of constraint accordint to keyboard fadetime
-    if ([notification.name isEqualToString:UIKeyboardWillShowNotification]) {
-        self.verticalPostitionConstrain.constant += offset / 3;
+    // animate only in landscape
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        // extract offset and animation duration from notification
+        CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        CGFloat offset = keyboardFrame.size.width;
+        NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        
+        // annimate update of constraint accordint to keyboard fadetime
+        if ([notification.name isEqualToString:UIKeyboardWillShowNotification]) {
+            self.verticalPostitionConstrain.constant += offset / 3;
+        }
+        else {
+            self.verticalPostitionConstrain.constant -= offset / 3;
+        }
+        [UIView animateWithDuration:animationDuration animations:^{
+            [self.view layoutIfNeeded];
+        }];
     }
-    else {
-        self.verticalPostitionConstrain.constant -= offset / 3;
-    }
-    [UIView animateWithDuration:animationDuration animations:^{
-        [self.view layoutIfNeeded];
-    }];
 }
 
 @end
