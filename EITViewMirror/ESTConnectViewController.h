@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalPostitionConstrain;
 
 - (IBAction)connect:(id)sender;
-
 -(void)updateLayoutForKeyboard:(NSNotification*)notification;
 
 @end

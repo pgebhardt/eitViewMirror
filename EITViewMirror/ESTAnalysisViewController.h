@@ -10,8 +10,7 @@
 
 @interface ESTAnalysisViewController : UITableViewController
 
--(void)updateAnalysis:(NSDictionary*)analysis;
-
-@property (nonatomic, strong) NSDictionary* analysis;
+-(void)updateAnalysis:(NSArray*)analysis;
+@property (nonatomic, strong) NSArray* analysis;
 
 @end

@@ -9,23 +9,19 @@
 #import "ESTImageViewController.h"
 #import "ESTAnalysisViewController.h"
 
-@implementation ESTImageViewController {
-    CGPoint _oldTouchPoint;
-    float _xAxisRotation;
-    float _zAxisRotation;
-    BOOL _updateing;
-    ESTAnalysisViewController* _analysisViewController;
-    UIPopoverController* _analysisViewPopover;
-}
+@interface ESTImageViewController ()
 
--(void)setupGL {
-    [EAGLContext setCurrentContext:self.context];
-    
-    // initialize shaders
-    self.baseEffect = [[GLKBaseEffect alloc] init];
+@property (nonatomic, strong) ESTAnalysisViewController* analysisViewController;
+@property (nonatomic, strong) UIPopoverController* analysisPopoverController;
+@property (nonatomic, strong) GLKBaseEffect* baseEffect;
+@property (nonatomic, assign, getter = isUpdating) BOOL updating;
+@property (nonatomic, assign) CGPoint oldTouchPoint;
+@property (nonatomic, assign) GLfloat xAxisRotation;
+@property (nonatomic, assign) GLfloat zAxisRotation;
 
-    glEnable(GL_DEPTH_TEST);
-}
+@end
+
+@implementation ESTImageViewController
 
 -(void)viewDidLoad {
     [super viewDidLoad];
@@ -37,32 +33,35 @@
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     // init properties
-    _updateing = NO;
-    _analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
-    _analysisViewPopover = [[UIPopoverController alloc] initWithContentViewController:_analysisViewController];
+    self.updating = NO;
+    self.analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
     
-    [self setupGL];
+    // initialize open gl
+    [EAGLContext setCurrentContext:self.context];
+    self.baseEffect = [[GLKBaseEffect alloc] init];
+    glEnable(GL_DEPTH_TEST);
 }
 
 - (IBAction)infoButtonPressed:(id)sender {
-    [_analysisViewPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.analysisPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (IBAction)calibrateButtonPressed:(id)sender {
-    [self.mirrorClient requestCalibration];
+    [self.mirrorClient request:ESTMirrorClientRequestCalibration];
 }
 
 -(void)updateImpedanceRenderer {
     // request
-    _updateing = YES;
-    [self.mirrorClient requestVetricesUpdate:^(NSData* vertexData, NSError *error) {
-        [self.mirrorClient requestColorUpdate:^(NSData *colorData, NSError *error) {
+    self.updating = YES;
+    [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withDataCompletionHandler:^(NSData* vertices, NSError* error) {
+        [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withDataCompletionHandler:^(NSData* colors, NSError* error) {
             [EAGLContext setCurrentContext:self.context];
             
             // update impedance renderer
-            [self.impedanceRenderer updateVertices:vertexData andColors:colorData];    
+            [self.impedanceRenderer updateVertices:vertices andColors:colors];
             
-            _updateing = NO;
+            self.updating = NO;
         }];
     }];
 }
@@ -91,19 +90,19 @@
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, aspect, aspect, aspect);
     }
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_xAxisRotation), 1.0, 0.0, 0.0);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_zAxisRotation), 0.0, 0.0, 1.0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.xAxisRotation), 1.0, 0.0, 0.0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.zAxisRotation), 0.0, 0.0, 1.0);
     self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
     
     [self.baseEffect prepareToDraw];
     
     // fetch new data
-    if (!_updateing) {
+    if (!self.isUpdating) {
         [self updateImpedanceRenderer];
         
-        if (_analysisViewPopover.isPopoverVisible) {
-            [self.mirrorClient requestAnalysisUpdate:^(NSDictionary *analysis, NSError *error) {
-                [_analysisViewController updateAnalysis:analysis];
+        if (self.analysisPopoverController.isPopoverVisible) {
+            [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withDictionaryCompletionHandler:^(NSDictionary* analysis, NSError* error) {
+                [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
             }];
         }
     }
@@ -113,32 +112,32 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     // save start touch point
-    _oldTouchPoint = [touches.allObjects[0] locationInView:self.view];
+    self.oldTouchPoint = [touches.allObjects[0] locationInView:self.view];
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     // change rotation angles according to finger position relative to last touch event event
     CGPoint newTouchPoint = [touches.allObjects[0] locationInView:self.view];
     
-    _xAxisRotation += 2e-1 * (newTouchPoint.y - _oldTouchPoint.y);
-    if (fabsf(fmodf(_xAxisRotation, 360.0)) < 90.0 || fabsf(fmodf(_xAxisRotation, 360.0)) >= 270.0) {
+    self.xAxisRotation += 2e-1 * (newTouchPoint.y - self.oldTouchPoint.y);
+    if (fabsf(fmodf(self.xAxisRotation, 360.0)) < 90.0 || fabsf(fmodf(self.xAxisRotation, 360.0)) >= 270.0) {
         if (newTouchPoint.y < self.view.bounds.size.height / 2) {
-            _zAxisRotation -= 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+            self.zAxisRotation -= 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
         }
         else {
-            _zAxisRotation += 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+            self.zAxisRotation += 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
         }
     }
     else {
         if (newTouchPoint.y < self.view.bounds.size.height / 2) {
-            _zAxisRotation += 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+            self.zAxisRotation += 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
         }
         else {
-            _zAxisRotation -= 2e-1 * (newTouchPoint.x - _oldTouchPoint.x);
+            self.zAxisRotation -= 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
         }
     }
     
-    _oldTouchPoint = newTouchPoint;
+    self.oldTouchPoint = newTouchPoint;
 }
 
 @end

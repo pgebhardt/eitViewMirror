@@ -9,6 +9,15 @@
 #import "ESTMirrorClient.h"
 #import "ESTElectrodesRenderer.h"
 
+// request constants
+NSString* const ESTMirrorClientRequestElectrodesConfig = @"electrodes";
+NSString* const ESTMirrorClientRequestVerticesConfig = @"vertices";
+NSString* const ESTMirrorClientRequestColorsConfig = @"colors";
+NSString* const ESTMirrorClientRequestVerticesUpdate = @"vertices-update";
+NSString* const ESTMirrorClientRequestColorsUpdate = @"colors-update";
+NSString* const ESTMirrorClientRequestAnalysisUpdate = @"analysis-update";
+NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
+
 @implementation ESTMirrorClient
 
 -(id)initWithHostAddress:(NSURL *)hostAddress {
@@ -20,94 +29,35 @@
     return self;
 }
 
--(void)requestElectrodesConfig:(void (^)(NSInteger, CGFloat, NSError *))completionHandler {
+-(void)request:(NSString *)request {
+    // request at server without expecting response
+    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:nil];
+}
+
+-(void)request:(NSString *)request withDataCompletionHandler:(void (^)(NSData *, NSError *))completionHandler {
     // request electrodes configuration from server
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/electrodes", self.hostAddress]]];
+    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
     
     NSURLSession* urlSession = [NSURLSession sharedSession];
-    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (!error) {
-            // extract data
-            NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            
-            // call completion handler
-            completionHandler([body[@"count"] intValue], [body[@"length"] floatValue], error);
-        }
+    [[urlSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // call completion handler
+        completionHandler(data, error);
     }] resume];
 }
 
--(void)requestVetricesConfig:(void (^)(NSData*, NSError *))completionHandler {
+-(void)request:(NSString *)request withDictionaryCompletionHandler:(void (^)(NSDictionary *, NSError *))completionHandler {
     // request electrodes configuration from server
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/vertices", self.hostAddress]]];
+    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
     
     NSURLSession* urlSession = [NSURLSession sharedSession];
-    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (!error) {
-            // call completion handler
-            completionHandler(data, error);
-        }
+    [[urlSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // extract data
+        NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+        
+        // call completion handler
+        completionHandler(body, error);
     }] resume];
-}
-
--(void)requestVetricesUpdate:(void (^)(NSData*, NSError *))completionHandler {
-    // request electrodes configuration from server
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/vertices-update", self.hostAddress]]];
-    
-    NSURLSession* urlSession = [NSURLSession sharedSession];
-    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (!error) {
-            // call completion handler
-            completionHandler(data, error);
-        }
-    }] resume];
-}
-
--(void)requestColorConfig:(void (^)(NSData *, NSError *))completionHandler {
-    // request electrodes configuration from server
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/colors", self.hostAddress]]];
-    
-    NSURLSession* urlSession = [NSURLSession sharedSession];
-    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (!error) {
-            // call completion handler
-            completionHandler(data, error);
-        }
-    }] resume];
-}
-
--(void)requestColorUpdate:(void (^)(NSData *, NSError *))completionHandler {
-    // request electrodes configuration from server
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/colors-update", self.hostAddress]]];
-    
-    NSURLSession* urlSession = [NSURLSession sharedSession];
-    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (!error) {
-            // call completion handler
-            completionHandler(data, error);
-        }
-    }] resume];
-}
-
--(void)requestAnalysisUpdate:(void (^)(NSDictionary *, NSError *))completionHandler {
-    // request electrodes configuration from server
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/analysis-update", self.hostAddress]]];
-    
-    NSURLSession* urlSession = [NSURLSession sharedSession];
-    [[urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (!error) {
-            // extract data
-            NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            
-            // call completion handler
-            completionHandler(body, error);
-        }
-    }] resume];
-}
-
--(void)requestCalibration {
-    // request electrodes configuration from server
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/calibrate", self.hostAddress]]];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:nil];
 }
 
 @end

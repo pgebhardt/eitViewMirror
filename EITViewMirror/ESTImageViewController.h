@@ -14,7 +14,6 @@
 @interface ESTImageViewController : GLKViewController
 
 @property (nonatomic, strong) EAGLContext* context;
-@property (nonatomic, strong) GLKBaseEffect* baseEffect;
 @property (nonatomic, strong) ESTElectrodesRenderer* electrodesRenderer;
 @property (nonatomic, strong) ESTImpedanceRenderer* impedanceRenderer;
 @property (nonatomic, strong) ESTMirrorClient* mirrorClient;

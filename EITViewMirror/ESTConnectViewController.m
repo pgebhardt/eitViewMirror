@@ -33,26 +33,38 @@
     // connect to mirror server and request electrodes, vertices and colors config
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003", self.addressField.text]];
     self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
-    [self.mirrorClient requestElectrodesConfig:^(NSInteger electodesCount, CGFloat length, NSError *error) {
-        [EAGLContext setCurrentContext:self.context];
-        
-        // create electrodes renderer
-        self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:electodesCount andLength:length];
-    
-        // request vertices and colors config
-        [self.mirrorClient requestVetricesConfig:^(NSData* vertexData, NSError *error) {
-            [self.mirrorClient requestColorConfig:^(NSData *colorData, NSError *error) {
-                [EAGLContext setCurrentContext:self.context];
-                
-                // create impedance renderer
-                self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithVertexData:vertexData andColorData:colorData];
-                
-                // execute notification on main thread
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"showImageView" sender:self];
-                });
+    [self.mirrorClient request:ESTMirrorClientRequestElectrodesConfig withDictionaryCompletionHandler:^(NSDictionary *data, NSError *error) {
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                    message:[NSString stringWithFormat:@"Unable to connect to host:\n%@", hostAddress]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                [alertView show];
+            });
+        }
+        else {
+            [EAGLContext setCurrentContext:self.context];
+            
+            // create electrodes renderer
+            self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:[data[@"count"] intValue] andLength:[data[@"length"] floatValue]];
+            
+            // request vertices and colors config
+            [self.mirrorClient request:ESTMirrorClientRequestVerticesConfig withDataCompletionHandler:^(NSData* vertices, NSError* error) {
+                [self.mirrorClient request:ESTMirrorClientRequestColorsConfig withDataCompletionHandler:^(NSData* colors, NSError* error) {
+                    [EAGLContext setCurrentContext:self.context];
+                    
+                    // create impedance renderer
+                    self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithVertexData:vertices andColorData:colors];
+                    
+                    // execute notification on main thread
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self performSegueWithIdentifier:@"showImageView" sender:self];
+                    });
+                }];
             }];
-        }];
+        }
     }];
 }
 

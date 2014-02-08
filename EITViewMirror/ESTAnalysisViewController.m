@@ -13,7 +13,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.analysis[@"analysis"] count];
+    return self.analysis.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -23,8 +23,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reusableIdentifier];
     }
     
-    NSString* name = self.analysis[@"analysis"][indexPath.row][@"name"];
-    NSString* analysis = self.analysis[@"analysis"][indexPath.row][@"result"];
+    NSString* name = self.analysis[indexPath.row][@"name"];
+    NSString* analysis = self.analysis[indexPath.row][@"result"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", name, analysis];
     
     return cell;
@@ -34,7 +34,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
--(void)updateAnalysis:(NSDictionary *)analysis {
+-(void)updateAnalysis:(NSArray*)analysis {
     self.analysis = analysis;
 
     dispatch_async(dispatch_get_main_queue(), ^{
