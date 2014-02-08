@@ -20,6 +20,7 @@
 @property (nonatomic, strong) EAGLContext* context;
 
 @property (weak, nonatomic) IBOutlet UITextField *addressField;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalPostitionConstrain;
 
 - (IBAction)connect:(id)sender;

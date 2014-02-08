@@ -27,8 +27,9 @@
 }
 
 - (IBAction)connect:(id)sender {
-    // hide keyboard
+    // hide keyboard and disable connect button
     [self.addressField resignFirstResponder];
+    self.connectButton.enabled = NO;
     
     // connect to mirror server and request electrodes, vertices and colors config
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003", self.addressField.text]];
@@ -65,6 +66,8 @@
                 }];
             }];
         }
+        
+        self.connectButton.enabled = YES;
     }];
 }
 

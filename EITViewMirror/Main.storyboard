@@ -60,6 +60,7 @@
                     <navigationItem key="navigationItem" title="EIT View Mirror" id="p0H-xo-phs"/>
                     <connections>
                         <outlet property="addressField" destination="E9B-A8-cM2" id="hke-r1-LrA"/>
+                        <outlet property="connectButton" destination="cJM-Fi-kYs" id="zkj-oZ-9xd"/>
                         <outlet property="verticalPostitionConstrain" destination="xfG-VW-zZz" id="Dir-Gl-pRa"/>
                         <segue destination="3xC-nt-YNj" kind="push" identifier="showImageView" id="qmx-lV-v59"/>
                     </connections>
