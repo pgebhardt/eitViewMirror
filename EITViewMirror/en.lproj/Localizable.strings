@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  EITViewMirror
+
+  Created by Patrik Gebhardt on 09/02/14.
+  Copyright (c) 2014 EST. All rights reserved.
+*/
+
+"ERROR" = "Error";
+"UNABLE_TO_CONNECT_TO_HOST" = "Unable to connect to host";

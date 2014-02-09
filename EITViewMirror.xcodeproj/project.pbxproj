@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F0FEB7618A7C622006D150B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F0FEB7818A7C622006D150B /* Main.storyboard */; };
+		5F0FEB8518A7C8A5006D150B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F0FEB8718A7C8A5006D150B /* Localizable.strings */; };
 		5F3C1EF218A51B87007E228A /* ESTAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3C1EF118A51B87007E228A /* ESTAnalysisViewController.m */; };
 		5F4B4F0718A26B03008FF741 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F0618A26B03008FF741 /* Foundation.framework */; };
 		5F4B4F0918A26B03008FF741 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F0818A26B03008FF741 /* CoreGraphics.framework */; };
@@ -23,7 +25,6 @@
 		5F4B4F3618A26B46008FF741 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3518A26B46008FF741 /* OpenGLES.framework */; };
 		5F4B4F3818A26B4B008FF741 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B4F3718A26B4B008FF741 /* GLKit.framework */; };
 		5F4B4F3B18A26CF4008FF741 /* ESTImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3A18A26CF4008FF741 /* ESTImageViewController.m */; };
-		5F4B4F3D18A26D13008FF741 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F4B4F3C18A26D13008FF741 /* Main.storyboard */; };
 		5F6C4E3118A38439004CE32E /* ESTConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C4E3018A38439004CE32E /* ESTConnectViewController.m */; };
 		5F6C4E3418A388C9004CE32E /* ESTMirrorClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */; };
 		5FB012FD18A3B16100B56321 /* ESTImpedanceRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB012FC18A3B16100B56321 /* ESTImpedanceRenderer.m */; };
@@ -41,6 +42,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F0FEB7918A7C62E006D150B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5F0FEB7A18A7C639006D150B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		5F0FEB7B18A7C639006D150B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F0FEB7C18A7C639006D150B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F0FEB8618A7C8A5006D150B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5F0FEB8818A7C8AD006D150B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5F3C1EF018A51B87007E228A /* ESTAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTAnalysisViewController.h; sourceTree = "<group>"; };
 		5F3C1EF118A51B87007E228A /* ESTAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTAnalysisViewController.m; sourceTree = "<group>"; };
 		5F4B4F0318A26B03008FF741 /* EITViewMirror.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EITViewMirror.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,7 +70,6 @@
 		5F4B4F3718A26B4B008FF741 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		5F4B4F3918A26CF4008FF741 /* ESTImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTImageViewController.h; sourceTree = "<group>"; };
 		5F4B4F3A18A26CF4008FF741 /* ESTImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTImageViewController.m; sourceTree = "<group>"; };
-		5F4B4F3C18A26D13008FF741 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5F6C4E2F18A38439004CE32E /* ESTConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTConnectViewController.h; sourceTree = "<group>"; };
 		5F6C4E3018A38439004CE32E /* ESTConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTConnectViewController.m; sourceTree = "<group>"; };
 		5F6C4E3218A388C9004CE32E /* ESTMirrorClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTMirrorClient.h; sourceTree = "<group>"; };
@@ -143,7 +149,7 @@
 				5F3C1EF118A51B87007E228A /* ESTAnalysisViewController.m */,
 				5F6C4E3218A388C9004CE32E /* ESTMirrorClient.h */,
 				5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */,
-				5F4B4F3C18A26D13008FF741 /* Main.storyboard */,
+				5F0FEB7818A7C622006D150B /* Main.storyboard */,
 				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
 				5FBB0EFF18A2F90900164DD2 /* Renderer */,
 				5F4B4F0D18A26B03008FF741 /* Supporting Files */,
@@ -160,6 +166,7 @@
 				5F4B4F0F18A26B03008FF741 /* InfoPlist.strings */,
 				5F4B4F1218A26B03008FF741 /* main.m */,
 				5F4B4F1418A26B03008FF741 /* EITViewMirror-Prefix.pch */,
+				5F0FEB8718A7C8A5006D150B /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -256,6 +263,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
+				de,
 			);
 			mainGroup = 5F4B4EFA18A26B03008FF741;
 			productRefGroup = 5F4B4F0418A26B03008FF741 /* Products */;
@@ -273,7 +282,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F4B4F3D18A26D13008FF741 /* Main.storyboard in Resources */,
+				5F0FEB7618A7C622006D150B /* Main.storyboard in Resources */,
+				5F0FEB8518A7C8A5006D150B /* Localizable.strings in Resources */,
 				5F4B4F1118A26B03008FF741 /* InfoPlist.strings in Resources */,
 				5F4B4F1918A26B03008FF741 /* Images.xcassets in Resources */,
 			);
@@ -340,10 +350,29 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		5F0FEB7818A7C622006D150B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F0FEB7918A7C62E006D150B /* Base */,
+				5F0FEB7A18A7C639006D150B /* de */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5F0FEB8718A7C8A5006D150B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F0FEB8618A7C8A5006D150B /* en */,
+				5F0FEB8818A7C8AD006D150B /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		5F4B4F0F18A26B03008FF741 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				5F4B4F1018A26B03008FF741 /* en */,
+				5F0FEB7B18A7C639006D150B /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -352,6 +381,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5F4B4F2918A26B03008FF741 /* en */,
+				5F0FEB7C18A7C639006D150B /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

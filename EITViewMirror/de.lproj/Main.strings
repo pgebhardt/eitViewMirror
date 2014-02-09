@@ -1,0 +1,15 @@
+
+/* Class = "IBUITextField"; placeholder = "127.0.0.1"; ObjectID = "E9B-A8-cM2"; */
+"E9B-A8-cM2.placeholder" = "127.0.0.1";
+
+/* Class = "IBUILabel"; text = "Serveraddress:"; ObjectID = "P5a-t3-JvF"; */
+"P5a-t3-JvF.text" = "Server Adresse:";
+
+/* Class = "IBUIButton"; normalTitle = "Connect"; ObjectID = "cJM-Fi-kYs"; */
+"cJM-Fi-kYs.normalTitle" = "Verbinden";
+
+/* Class = "IBUINavigationItem"; title = "EIT View Mirror"; ObjectID = "p0H-xo-phs"; */
+"p0H-xo-phs.title" = "EIT View Mirror";
+
+/* Class = "IBUIButton"; normalTitle = "Calibrate"; ObjectID = "q7F-Oo-aRe"; */
+"q7F-Oo-aRe.normalTitle" = "Kalibrieren";

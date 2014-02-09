@@ -37,8 +37,8 @@
     [self.mirrorClient request:ESTMirrorClientRequestElectrodesConfig withDictionaryCompletionHandler:^(NSDictionary *data, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                    message:[NSString stringWithFormat:@"Unable to connect to host:\n%@", hostAddress]
+                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", @"message")
+                                                                    message:[NSString stringWithFormat:@"%@:\n%@", NSLocalizedString(@"UNABLE_TO_CONNECT_TO_HOST", @"message"), hostAddress]
                                                                    delegate:nil
                                                           cancelButtonTitle:@"OK"
                                                           otherButtonTitles:nil];
