@@ -85,11 +85,9 @@
 -(void)drawInRect:(CGRect)rect {
     // draw electrodes to gl context
     glBindBuffer(GL_ARRAY_BUFFER, self.vertexBuffer);
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
     
     glBindBuffer(GL_ARRAY_BUFFER, self.colorsBuffer);
-    glEnableVertexAttribArray(GLKVertexAttribColor);
     glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 0, 0);
     
     glDrawArrays(GL_TRIANGLES, 0, 3 * (GLsizei)self.count);

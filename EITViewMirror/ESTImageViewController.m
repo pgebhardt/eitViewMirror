@@ -39,7 +39,11 @@
     // initialize open gl
     [EAGLContext setCurrentContext:self.context];
     self.baseEffect = [[GLKBaseEffect alloc] init];
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glLineWidth(3.0);
     glEnable(GL_DEPTH_TEST);
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glEnableVertexAttribArray(GLKVertexAttribColor);
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -112,7 +116,6 @@
 #pragma mark - GLKViewDelegate
 
 -(void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
-    glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // draw renderer
