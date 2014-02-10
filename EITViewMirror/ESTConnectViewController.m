@@ -32,7 +32,8 @@
     self.connectButton.enabled = NO;
     
     // connect to mirror server and request electrodes, vertices and colors config
-    NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003", self.addressField.text]];
+    NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003",
+                                               self.addressField.text.length > 0 ? self.addressField.text : self.addressField.placeholder]];
     self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
     [self.mirrorClient requestData:ESTMirrorClientRequestElectrodesConfig success:^(NSData *data) {
         [EAGLContext setCurrentContext:self.context];
