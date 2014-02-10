@@ -34,7 +34,7 @@
     // connect to mirror server and request electrodes, vertices and colors config
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003", self.addressField.text]];
     self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
-    [self.mirrorClient request:ESTMirrorClientRequestElectrodesConfig withDictionaryCompletionHandler:^(NSDictionary *data, NSError *error) {
+    [self.mirrorClient request:ESTMirrorClientRequestElectrodesConfig withDataCompletionHandler:^(NSData* data, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", @"message")
@@ -49,7 +49,7 @@
             [EAGLContext setCurrentContext:self.context];
             
             // create electrodes renderer
-            self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithCount:[data[@"count"] intValue] andLength:[data[@"length"] floatValue]];
+            self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithVertexAndColorData:data];
             
             // request vertices and colors config
             [self.mirrorClient request:ESTMirrorClientRequestVerticesConfig withDataCompletionHandler:^(NSData* vertices, NSError* error) {
@@ -57,7 +57,7 @@
                     [EAGLContext setCurrentContext:self.context];
                     
                     // create impedance renderer
-                    self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithVertexData:vertices andColorData:colors];
+                    self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithVertexData:vertices colorsData:colors];
                     
                     // execute notification on main thread
                     dispatch_async(dispatch_get_main_queue(), ^{

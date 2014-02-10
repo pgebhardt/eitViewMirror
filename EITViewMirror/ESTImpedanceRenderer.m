@@ -17,7 +17,7 @@
     GLfloat* _colorsSmall;
 }
 
--(id)initWithVertexData:(NSData *)vertexData andColorData:(NSData *)colorData {
+-(id)initWithVertexData:(NSData *)vertexData colorsData:(NSData *)colorData {
     if (self = [super init]) {
         // init properties
         _count = vertexData.length / sizeof(GLfloat) / 3 / 3;
@@ -42,7 +42,7 @@
     return self;
 }
 
--(void)updateVertices:(NSData *)vertexData andColors:(NSData *)colorData {
+-(void)updateVertexData:(NSData *)vertexData colorsData:(NSData *)colorData {
     // update vertex buffer
     memcpy(_verticesSmall, vertexData.bytes, vertexData.length);
     for (int i = 0; i < self.count; ++i) {

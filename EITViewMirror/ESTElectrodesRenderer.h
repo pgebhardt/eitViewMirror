@@ -11,7 +11,7 @@
 
 @interface ESTElectrodesRenderer : NSObject
 
--(id)initWithCount:(NSInteger)count andLength:(CGFloat)length;
+-(id)initWithVertexAndColorData:(NSData*)data;
 -(void)drawInRect:(CGRect)rect;
 
 @property (nonatomic, assign, readonly) NSInteger count;

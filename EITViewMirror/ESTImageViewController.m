@@ -51,7 +51,50 @@
     [self.mirrorClient request:ESTMirrorClientRequestCalibration];
 }
 
--(void)updateImpedanceRenderer {
+-(void)updateBaseEffect {
+    // set projection matrix
+    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(10.0), aspect, 0.1, 100.0);
+    self.baseEffect.transform.projectionMatrix = projectionMatrix;
+    
+    // set model view matrix
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -20.0);
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, aspect, aspect, aspect);
+    }
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.xAxisRotation), 1.0, 0.0, 0.0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.zAxisRotation), 0.0, 0.0, 1.0);
+    self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
+    
+    [self.baseEffect prepareToDraw];
+}
+
+-(void)updateData {
+    // fetch new data
+    if (!self.isUpdating) {
+        // request
+        self.updating = YES;
+        [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withDataCompletionHandler:^(NSData* vertices, NSError* error) {
+            [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withDataCompletionHandler:^(NSData* colors, NSError* error) {
+                [EAGLContext setCurrentContext:self.context];
+                
+                // update impedance renderer
+                [self.impedanceRenderer updateVertexData:vertices colorsData:colors];
+                
+                // update analysis table
+                if (self.analysisPopoverController.isPopoverVisible) {
+                    [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withDictionaryCompletionHandler:^(NSDictionary* analysis, NSError* error) {
+                        [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
+                        
+                        self.updating = NO;
+                    }];
+                }
+                else {
+                    self.updating = NO;
+                }
+            }];
+        }];
+    }
 }
 
 #pragma mark - GLKViewDelegate
@@ -68,48 +111,8 @@
 #pragma mark - GLKViewController
 
 -(void)update {
-    // set projection matrix
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(10.0), aspect, 0.1, 100.0);
-    self.baseEffect.transform.projectionMatrix = projectionMatrix;
-    
-    // set model view matrix
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0, 0.0, -20.0);
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, aspect, aspect, aspect);
-    }
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.xAxisRotation), 1.0, 0.0, 0.0);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.zAxisRotation), 0.0, 0.0, 1.0);
-    self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
-    
-    [self.baseEffect prepareToDraw];
-    
-    // fetch new data
-    if (!self.isUpdating) {
-        // request
-        self.updating = YES;
-        [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withDataCompletionHandler:^(NSData* vertices, NSError* error) {
-            [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withDataCompletionHandler:^(NSData* colors, NSError* error) {
-                [EAGLContext setCurrentContext:self.context];
-                
-                // update impedance renderer
-                [self.impedanceRenderer updateVertices:vertices andColors:colors];
-               
-                // update analysis table
-                if (self.analysisPopoverController.isPopoverVisible) {
-                    [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withDictionaryCompletionHandler:^(NSDictionary* analysis, NSError* error) {
-                        [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
-                        
-                        self.updating = NO;
-                    }];
-                }
-                else {
-                    self.updating = NO;
-                }
-            }];
-        }];
-        
-    }
+    [self updateBaseEffect];
+    [self updateData];
 }
 
 #pragma mark - Touch Events

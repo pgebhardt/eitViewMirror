@@ -20,6 +20,5 @@
 
 - (IBAction)infoButtonPressed:(id)sender;
 - (IBAction)calibrateButtonPressed:(id)sender;
--(void)updateImpedanceRenderer;
 
 @end

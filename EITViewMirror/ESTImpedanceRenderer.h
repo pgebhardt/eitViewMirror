@@ -11,9 +11,9 @@
 
 @interface ESTImpedanceRenderer : NSObject
 
--(id)initWithVertexData:(NSData*)vertexData andColorData:(NSData*)colorData;
+-(id)initWithVertexData:(NSData*)vertexData colorsData:(NSData*)colorData;
 -(void)drawInRect:(CGRect)rect;
--(void)updateVertices:(NSData*)vertexData andColors:(NSData*)colorData;
+-(void)updateVertexData:(NSData*)vertexData colorsData:(NSData*)colorData;
                                                      
 @property (nonatomic, assign, readonly) NSInteger count;
 
