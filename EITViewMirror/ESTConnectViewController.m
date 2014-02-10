@@ -34,40 +34,37 @@
     // connect to mirror server and request electrodes, vertices and colors config
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003", self.addressField.text]];
     self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
-    [self.mirrorClient request:ESTMirrorClientRequestElectrodesConfig withDataCompletionHandler:^(NSData* data, NSError *error) {
-        if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", @"message")
-                                                                    message:[NSString stringWithFormat:@"%@:\n%@", NSLocalizedString(@"UNABLE_TO_CONNECT_TO_HOST", @"message"), hostAddress]
-                                                                   delegate:nil
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                [alertView show];
-            });
-        }
-        else {
-            [EAGLContext setCurrentContext:self.context];
-            
-            // create electrodes renderer
-            self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithVertexAndColorData:data];
-            
-            // request vertices and colors config
-            [self.mirrorClient request:ESTMirrorClientRequestVerticesConfig withDataCompletionHandler:^(NSData* vertices, NSError* error) {
-                [self.mirrorClient request:ESTMirrorClientRequestColorsConfig withDataCompletionHandler:^(NSData* colors, NSError* error) {
-                    [EAGLContext setCurrentContext:self.context];
-                    
-                    // create impedance renderer
-                    self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithVertexData:vertices colorsData:colors];
-                    
-                    // execute notification on main thread
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self performSegueWithIdentifier:@"showImageView" sender:self];
-                    });
-                }];
-            }];
-        }
+    [self.mirrorClient requestData:ESTMirrorClientRequestElectrodesConfig success:^(NSData *data) {
+        [EAGLContext setCurrentContext:self.context];
         
-        self.connectButton.enabled = YES;
+        // create electrodes renderer
+        self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithVertexAndColorData:data];
+        
+        // request vertices and colors config
+        [self.mirrorClient requestData:ESTMirrorClientRequestVerticesConfig success:^(NSData* vertices) {
+            [self.mirrorClient requestData:ESTMirrorClientRequestColorsConfig success:^(NSData* colors) {
+                [EAGLContext setCurrentContext:self.context];
+                
+                // create impedance renderer
+                self.impedanceRenderer = [[ESTImpedanceRenderer alloc] initWithVertexData:vertices colorsData:colors];
+                
+                // execute notification on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.connectButton.enabled = YES;
+                    [self performSegueWithIdentifier:@"showImageView" sender:self];
+                });
+            } failure:nil];
+        } failure:nil];
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", @"message")
+                                                                message:[NSString stringWithFormat:@"%@:\n%@", NSLocalizedString(@"UNABLE_TO_CONNECT_TO_HOST", @"message"), hostAddress]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+            self.connectButton.enabled = YES;
+        });
     }];
 }
 

@@ -33,7 +33,6 @@
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     // init properties
-    self.updating = NO;
     self.analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
     self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
     
@@ -41,6 +40,13 @@
     [EAGLContext setCurrentContext:self.context];
     self.baseEffect = [[GLKBaseEffect alloc] init];
     glEnable(GL_DEPTH_TEST);
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // init properties
+    self.updating = NO;
 }
 
 - (IBAction)infoButtonPressed:(id)sender {
@@ -74,25 +80,31 @@
     if (!self.isUpdating) {
         // request
         self.updating = YES;
-        [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withDataCompletionHandler:^(NSData* vertices, NSError* error) {
-            [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withDataCompletionHandler:^(NSData* colors, NSError* error) {
-                [EAGLContext setCurrentContext:self.context];
-                
+        [self.mirrorClient requestData:ESTMirrorClientRequestVerticesUpdate success:^(NSData* vertices) {
+            [self.mirrorClient requestData:ESTMirrorClientRequestColorsUpdate success:^(NSData* colors) {
                 // update impedance renderer
                 [self.impedanceRenderer updateVertexData:vertices colorsData:colors];
                 
                 // update analysis table
                 if (self.analysisPopoverController.isPopoverVisible) {
-                    [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withDictionaryCompletionHandler:^(NSDictionary* analysis, NSError* error) {
+                    [self.mirrorClient requestDictionary:ESTMirrorClientRequestAnalysisUpdate success:^(NSDictionary* analysis) {
                         [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
                         
                         self.updating = NO;
-                    }];
+                    } failure:nil];
                 }
                 else {
                     self.updating = NO;
                 }
+            } failure:^(NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
             }];
+        } failure:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
         }];
     }
 }

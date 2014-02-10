@@ -22,8 +22,8 @@ extern NSString* const ESTMirrorClientRequestCalibration;
 -(id)initWithHostAddress:(NSURL*)hostAddress;
 
 -(void)request:(NSString*)request;
--(void)request:(NSString*)request withDataCompletionHandler:(void (^)(NSData* data, NSError* error))completionHandler;
--(void)request:(NSString*)request withDictionaryCompletionHandler:(void (^)(NSDictionary* data, NSError* error))completionHandler;
+-(void)requestData:(NSString*)request success:(void (^)(NSData* data))success failure:(void (^)(NSError* error))failure;
+-(void)requestDictionary:(NSString*)request success:(void (^)(NSDictionary* data))success failure:(void (^)(NSError* error))failure;
 
 @property (nonatomic, strong) NSURL* hostAddress;
 

@@ -49,17 +49,24 @@ NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:nil];
 }
 
--(void)request:(NSString *)request withDataCompletionHandler:(void (^)(NSData *, NSError *))completionHandler {
+-(void)requestData:(NSString *)request success:(void (^)(NSData *))success failure:(void (^)(NSError *))failure {
     // request electrodes configuration from server
     NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
     
     [[self.urlSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         // call completion handler
-        completionHandler(data, error);
+        if (error) {
+            if (failure) {
+                failure(error);
+            }
+        }
+        else {
+            success(data);
+        }
     }] resume];
 }
 
--(void)request:(NSString *)request withDictionaryCompletionHandler:(void (^)(NSDictionary *, NSError *))completionHandler {
+-(void)requestDictionary:(NSString *)request success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
     // request electrodes configuration from server
     NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
     
@@ -68,7 +75,14 @@ NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
         NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
         
         // call completion handler
-        completionHandler(body, error);
+        if (error) {
+            if (failure) {
+                failure(error);
+            }
+        }
+        else {
+            success(body);
+        }
     }] resume];
 }
 
