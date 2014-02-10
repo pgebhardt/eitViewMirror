@@ -52,18 +52,6 @@
 }
 
 -(void)updateImpedanceRenderer {
-    // request
-    self.updating = YES;
-    [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withDataCompletionHandler:^(NSData* vertices, NSError* error) {
-        [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withDataCompletionHandler:^(NSData* colors, NSError* error) {
-            [EAGLContext setCurrentContext:self.context];
-            
-            // update impedance renderer
-            [self.impedanceRenderer updateVertices:vertices andColors:colors];
-            
-            self.updating = NO;
-        }];
-    }];
 }
 
 #pragma mark - GLKViewDelegate
@@ -98,13 +86,29 @@
     
     // fetch new data
     if (!self.isUpdating) {
-        [self updateImpedanceRenderer];
-        
-        if (self.analysisPopoverController.isPopoverVisible) {
-            [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withDictionaryCompletionHandler:^(NSDictionary* analysis, NSError* error) {
-                [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
+        // request
+        self.updating = YES;
+        [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withDataCompletionHandler:^(NSData* vertices, NSError* error) {
+            [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withDataCompletionHandler:^(NSData* colors, NSError* error) {
+                [EAGLContext setCurrentContext:self.context];
+                
+                // update impedance renderer
+                [self.impedanceRenderer updateVertices:vertices andColors:colors];
+               
+                // update analysis table
+                if (self.analysisPopoverController.isPopoverVisible) {
+                    [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withDictionaryCompletionHandler:^(NSDictionary* analysis, NSError* error) {
+                        [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
+                        
+                        self.updating = NO;
+                    }];
+                }
+                else {
+                    self.updating = NO;
+                }
             }];
-        }
+        }];
+        
     }
 }
 
