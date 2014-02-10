@@ -32,7 +32,7 @@ NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
         self.hostAddress = hostAddress;
 
         // init and create url session
-        NSURLSessionConfiguration* sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSessionConfiguration* sessionConfiguration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         sessionConfiguration.allowsCellularAccess = NO;
         sessionConfiguration.timeoutIntervalForRequest = 5.0;
         sessionConfiguration.timeoutIntervalForResource = 6.0;

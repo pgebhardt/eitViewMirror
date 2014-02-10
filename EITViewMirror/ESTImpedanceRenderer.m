@@ -64,6 +64,14 @@
         self.colors[1 + 0 * 3 + i * 3 * 3] = self.colors[1 + 1 * 3 + i * 3 * 3] = self.colors[1 + 2 * 3 + i * 3 * 3] = colorsUpdate[1 + i * 3];
         self.colors[2 + 0 * 3 + i * 3 * 3] = self.colors[2 + 1 * 3 + i * 3 * 3] = self.colors[2 + 2 * 3 + i * 3 * 3] = colorsUpdate[2 + i * 3];
     }
+    
+    // upload vertex and colors buffer
+    dispatch_async(dispatch_get_main_queue(), ^{
+        glBindBuffer(GL_ARRAY_BUFFER, self.vertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, self.count * 3 * 3 * sizeof(GLfloat), self.vertices, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, self.colorsBuffer);
+        glBufferData(GL_ARRAY_BUFFER, self.count * 3 * 3 * sizeof(GLfloat), self.colors, GL_DYNAMIC_DRAW);
+    });
 }
 
 -(void)dealloc {
@@ -77,12 +85,10 @@
 -(void)drawInRect:(CGRect)rect {
     // draw electrodes to gl context
     glBindBuffer(GL_ARRAY_BUFFER, self.vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, self.count * 3 * 3 * sizeof(GLfloat), self.vertices, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
     
     glBindBuffer(GL_ARRAY_BUFFER, self.colorsBuffer);
-    glBufferData(GL_ARRAY_BUFFER, self.count * 3 * 3 * sizeof(GLfloat), self.colors, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(GLKVertexAttribColor);
     glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 0, 0);
     
