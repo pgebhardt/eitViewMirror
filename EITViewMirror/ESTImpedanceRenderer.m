@@ -24,6 +24,10 @@
         // init properties
         _count = vertexData.length / sizeof(GLfloat) / 3 / 3;
         
+        // init open gl properties
+        glEnableVertexAttribArray(GLKVertexAttribPosition);
+        glEnableVertexAttribArray(GLKVertexAttribColor);
+
         // init vertex buffer for electrodes
         glGenBuffers(1, &_vertexBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, self.vertexBuffer);

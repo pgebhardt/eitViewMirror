@@ -40,10 +40,7 @@
     [EAGLContext setCurrentContext:self.context];
     self.baseEffect = [[GLKBaseEffect alloc] init];
     glClearColor(1.0, 1.0, 1.0, 1.0);
-    glLineWidth(3.0);
     glEnable(GL_DEPTH_TEST);
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glEnableVertexAttribArray(GLKVertexAttribColor);
 }
 
 -(void)viewDidAppear:(BOOL)animated {
