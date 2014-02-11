@@ -81,14 +81,15 @@
     if (!self.isUpdating) {
         // request
         self.updating = YES;
-        [self.mirrorClient requestData:ESTMirrorClientRequestVerticesUpdate success:^(NSData* vertices) {
-            [self.mirrorClient requestData:ESTMirrorClientRequestColorsUpdate success:^(NSData* colors) {
+        [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withSuccess:^(NSData* vertices) {
+            [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withSuccess:^(NSData* colors) {
                 // update impedance renderer
                 [self.impedanceRenderer updateVertexData:vertices colorsData:colors];
                 
                 // update analysis table
                 if (self.analysisPopoverController.isPopoverVisible) {
-                    [self.mirrorClient requestDictionary:ESTMirrorClientRequestAnalysisUpdate success:^(NSDictionary* analysis) {
+                    [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
+                        NSDictionary* analysis = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
                         [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
                         
                         self.updating = NO;

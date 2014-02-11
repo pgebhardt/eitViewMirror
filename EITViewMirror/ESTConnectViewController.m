@@ -30,20 +30,34 @@
     // hide keyboard and disable connect button
     [self.addressField resignFirstResponder];
     self.connectButton.enabled = NO;
-    
+
     // connect to mirror server and request electrodes, vertices and colors config
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003",
                                                self.addressField.text.length > 0 ? self.addressField.text : self.addressField.placeholder]];
+    
+    // error handler
+    void (^errorHanlder)(NSError*) = ^(NSError* error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", @"message")
+                                                                message:[NSString stringWithFormat:@"%@:\n%@", NSLocalizedString(@"UNABLE_TO_CONNECT_TO_HOST", @"message"), hostAddress]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+            self.connectButton.enabled = YES;
+        });
+    };
+    
     self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
-    [self.mirrorClient requestData:ESTMirrorClientRequestElectrodesConfig success:^(NSData *data) {
+    [self.mirrorClient request:ESTMirrorClientRequestElectrodesConfig withSuccess:^(NSData *data) {
         [EAGLContext setCurrentContext:self.context];
         
         // create electrodes renderer
         self.electrodesRenderer = [[ESTElectrodesRenderer alloc] initWithVertexAndColorData:data];
         
         // request vertices and colors config
-        [self.mirrorClient requestData:ESTMirrorClientRequestVerticesConfig success:^(NSData* vertices) {
-            [self.mirrorClient requestData:ESTMirrorClientRequestColorsConfig success:^(NSData* colors) {
+        [self.mirrorClient request:ESTMirrorClientRequestVerticesConfig withSuccess:^(NSData* vertices) {
+            [self.mirrorClient request:ESTMirrorClientRequestColorsConfig withSuccess:^(NSData* colors) {
                 [EAGLContext setCurrentContext:self.context];
                 
                 // create impedance renderer
@@ -54,19 +68,9 @@
                     self.connectButton.enabled = YES;
                     [self performSegueWithIdentifier:@"showImageView" sender:self];
                 });
-            } failure:nil];
-        } failure:nil];
-    } failure:^(NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", @"message")
-                                                                message:[NSString stringWithFormat:@"%@:\n%@", NSLocalizedString(@"UNABLE_TO_CONNECT_TO_HOST", @"message"), hostAddress]
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-            self.connectButton.enabled = YES;
-        });
-    }];
+            } failure:errorHanlder];
+        } failure:errorHanlder];
+    } failure:errorHanlder];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

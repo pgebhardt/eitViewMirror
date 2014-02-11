@@ -9,14 +9,8 @@
 #import "ESTMirrorClient.h"
 #import "ESTElectrodesRenderer.h"
 
-// request constants
-NSString* const ESTMirrorClientRequestElectrodesConfig = @"electrodes";
-NSString* const ESTMirrorClientRequestVerticesConfig = @"vertices";
-NSString* const ESTMirrorClientRequestColorsConfig = @"colors";
-NSString* const ESTMirrorClientRequestVerticesUpdate = @"vertices-update";
-NSString* const ESTMirrorClientRequestColorsUpdate = @"colors-update";
-NSString* const ESTMirrorClientRequestAnalysisUpdate = @"analysis-update";
-NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
+// request strings
+static NSArray* requestStrings = nil;
 
 @interface ESTMirrorClient ()
 
@@ -26,12 +20,19 @@ NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
 
 @implementation ESTMirrorClient
 
++(void)initialize {
+    [super initialize];
+
+    // init request strings
+    requestStrings = @[@"electrodes", @"vertices", @"colors", @"vertices-update", @"colors-update", @"analysis-update", @"calibrate"];
+}
+
 -(id)initWithHostAddress:(NSURL *)hostAddress {
     if (self = [super init]) {
         // init properties
         self.hostAddress = hostAddress;
 
-        // init and create url session
+        // create and init url session
         NSURLSessionConfiguration* sessionConfiguration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         sessionConfiguration.allowsCellularAccess = NO;
         sessionConfiguration.timeoutIntervalForRequest = 5.0;
@@ -43,15 +44,15 @@ NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
     return self;
 }
 
--(void)request:(NSString *)request {
+-(void)request:(ESTMirrorClientRequest)request {
     // request at server without expecting response
-    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
+    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, requestStrings[request]]]];
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:nil];
 }
 
--(void)requestData:(NSString *)request success:(void (^)(NSData *))success failure:(void (^)(NSError *))failure {
+-(void)request:(ESTMirrorClientRequest)request withSuccess:(void (^)(NSData *))success failure:(void (^)(NSError *))failure {
     // request electrodes configuration from server
-    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
+    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, requestStrings[request]]]];
     
     [[self.urlSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         // call completion handler
@@ -62,26 +63,6 @@ NSString* const ESTMirrorClientRequestCalibration = @"calibrate";
         }
         else {
             success(data);
-        }
-    }] resume];
-}
-
--(void)requestDictionary:(NSString *)request success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
-    // request electrodes configuration from server
-    NSURLRequest* urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.hostAddress, request]]];
-    
-    [[self.urlSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        // extract data
-        NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-        
-        // call completion handler
-        if (error) {
-            if (failure) {
-                failure(error);
-            }
-        }
-        else {
-            success(body);
         }
     }] resume];
 }
