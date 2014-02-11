@@ -10,6 +10,13 @@
 
 @implementation ESTAnalysisViewController
 
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // disable scrolling to prevent glitches
+    self.tableView.scrollEnabled = NO;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -31,8 +38,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 
 -(void)updateAnalysis:(NSArray*)analysis {
     self.analysis = analysis;
