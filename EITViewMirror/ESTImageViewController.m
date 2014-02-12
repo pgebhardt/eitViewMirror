@@ -34,7 +34,9 @@
     
     // init properties
     self.analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
-    self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
+    }
     
     // initialize open gl
     [EAGLContext setCurrentContext:self.context];
@@ -50,8 +52,22 @@
     self.updating = NO;
 }
 
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    // prevent pausing of event loop when showing analysis view on iPhone
+    if (self.analysisViewController.view.window) {
+        self.paused = NO;
+    }
+}
+
 - (IBAction)infoButtonPressed:(id)sender {
-    [self.analysisPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.analysisPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    else {
+        [self.navigationController pushViewController:self.analysisViewController animated:YES];
+    }
 }
 
 - (IBAction)calibrateButtonPressed:(id)sender {
@@ -87,7 +103,7 @@
                 [self.impedanceRenderer updateVertexData:vertices colorsData:colors];
                 
                 // update analysis table
-                if (self.analysisPopoverController.isPopoverVisible) {
+                if (self.analysisViewController.view.window) {
                     [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
                         NSDictionary* analysis = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
                         [self.analysisViewController updateAnalysis:analysis[@"analysis"]];

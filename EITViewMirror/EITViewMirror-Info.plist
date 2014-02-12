@@ -24,14 +24,22 @@
 	<string>25</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIMainStoryboardFile</key>
+	<string>iPhone</string>
 	<key>UIMainStoryboardFile~ipad</key>
-	<string>Main</string>
+	<string>iPad</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>UIStatusBarHidden~ipad</key>
 	<true/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
