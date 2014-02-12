@@ -33,7 +33,7 @@
 
     // connect to mirror server and request electrodes, vertices and colors config
     NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003",
-                                               self.addressField.text.length > 0 ? self.addressField.text : self.addressField.placeholder]];
+                                               self.addressField.text.length > 0 ? self.addressField.text : @"127.0.0.1"]];
     
     // error handler
     void (^errorHanlder)(NSError*) = ^(NSError* error) {
