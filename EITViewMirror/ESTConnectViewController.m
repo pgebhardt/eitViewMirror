@@ -15,8 +15,9 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    // init opengl context
+    // init properties
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    self.mirrorClient = [[ESTMirrorClient alloc] init];
     
     // observe keyboard
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLayoutForKeyboard:) name:UIKeyboardWillShowNotification object:nil];
@@ -32,14 +33,14 @@
     self.connectButton.enabled = NO;
 
     // connect to mirror server and request electrodes, vertices and colors config
-    NSURL* hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003",
+    self.mirrorClient.hostAddress = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:3003",
                                                self.addressField.text.length > 0 ? self.addressField.text : @"127.0.0.1"]];
     
     // error handler
     void (^errorHanlder)(NSError*) = ^(NSError* error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", @"message")
-                                                                message:[NSString stringWithFormat:@"%@:\n%@", NSLocalizedString(@"UNABLE_TO_CONNECT_TO_HOST", @"message"), hostAddress]
+                                                                message:[NSString stringWithFormat:@"%@:\n%@", NSLocalizedString(@"UNABLE_TO_CONNECT_TO_HOST", @"message"), self.mirrorClient.hostAddress]
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
@@ -48,7 +49,7 @@
         });
     };
     
-    self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:hostAddress];
+    // create renderer
     [self.mirrorClient request:ESTMirrorClientRequestElectrodesConfig withSuccess:^(NSData *data) {
         [EAGLContext setCurrentContext:self.context];
         
@@ -94,11 +95,13 @@
 
 -(void)updateLayoutForKeyboard:(NSNotification *)notification {
     // animate only in landscape
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&
+        UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) ||
+        UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         // extract offset and animation duration from notification
         CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        CGFloat offset = keyboardFrame.size.width;
         NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        CGFloat offset = UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? keyboardFrame.size.width : keyboardFrame.size.height;
         
         // annimate update of constraint accordint to keyboard fadetime
         if ([notification.name isEqualToString:UIKeyboardWillShowNotification]) {

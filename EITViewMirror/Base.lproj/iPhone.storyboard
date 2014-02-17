@@ -54,7 +54,7 @@
                     <connections>
                         <outlet property="addressField" destination="0oW-Ic-YqN" id="zUs-kr-hmr"/>
                         <outlet property="connectButton" destination="Tpp-9B-FxQ" id="Tvy-qs-qtW"/>
-                        <outlet property="verticalPostitionConstrain" destination="nMv-x0-iS8" id="Ork-kF-qvF"/>
+                        <outlet property="verticalPostitionConstrain" destination="k51-6e-GG0" id="TPp-FH-9uD"/>
                         <segue destination="p47-kN-4kh" kind="push" identifier="showImageView" id="hLZ-un-tah"/>
                     </connections>
                 </viewController>
