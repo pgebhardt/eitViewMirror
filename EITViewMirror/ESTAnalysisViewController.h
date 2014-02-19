@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ESTMirrorClient.h"
 
 @interface ESTAnalysisViewController : UITableViewController
 
--(void)updateAnalysis:(NSArray*)analysis;
-@property (nonatomic, strong) NSArray* analysis;
+-(void)updateWithMirrorClient:(ESTMirrorClient*)mirrorClient failure:(void (^)(NSError* error))failure;
 
 @end

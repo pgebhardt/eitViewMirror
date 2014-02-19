@@ -15,7 +15,6 @@
 @property (nonatomic, strong) ESTAnalysisViewController* analysisViewController;
 @property (nonatomic, strong) UIPopoverController* analysisPopoverController;
 @property (nonatomic, strong) GLKBaseEffect* baseEffect;
-@property (nonatomic, assign, getter = isUpdating) BOOL updating;
 @property (nonatomic, assign) CGPoint oldTouchPoint;
 @property (nonatomic, assign) GLfloat xAxisRotation;
 @property (nonatomic, assign) GLfloat zAxisRotation;
@@ -42,13 +41,6 @@
     self.baseEffect = [[GLKBaseEffect alloc] init];
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glEnable(GL_DEPTH_TEST);
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    // init properties
-    self.updating = NO;
 }
 
 - (IBAction)infoButtonPressed:(id)sender {
@@ -91,16 +83,7 @@
     }
     
     // update analysis view
-    if (self.analysisPopoverController.isPopoverVisible) {
-        if (!self.isUpdating) {
-            [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
-                NSDictionary* analysis = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
-                [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
-                
-                self.updating = NO;
-            } failure:nil];
-        }
-    }
+    [self.analysisViewController updateWithMirrorClient:self.mirrorClient failure:errorHandler];
 }
 
 #pragma mark - GLKViewDelegate

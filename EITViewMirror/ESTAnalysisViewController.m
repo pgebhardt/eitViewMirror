@@ -8,13 +8,45 @@
 
 #import "ESTAnalysisViewController.h"
 
+@interface ESTAnalysisViewController ()
+
+@property (nonatomic, assign, getter = isUpdating) BOOL updating;
+@property (nonatomic, strong) NSArray* analysis;
+
+@end
+
 @implementation ESTAnalysisViewController
 
 -(void)viewDidLoad {
     [super viewDidLoad];
     
+    // init properties
+    self.updating = NO;
+    
     // disable scrolling to prevent glitches
     self.tableView.scrollEnabled = NO;
+}
+
+-(void)updateWithMirrorClient:(ESTMirrorClient *)mirrorClient failure:(void (^)(NSError *))failure {
+    if (!self.isUpdating) {
+        [mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
+            NSDictionary* analysisDict = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
+            self.analysis = analysisDict[@"analysis"];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+                self.preferredContentSize = self.tableView.contentSize;
+            });
+
+            self.updating = NO;
+        } failure:^(NSError *error) {
+            self.updating = NO;
+            
+            if (failure) {
+                failure(error);
+            }
+        }];
+    }
 }
 
 #pragma mark - Table view data source
@@ -40,14 +72,5 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-
--(void)updateAnalysis:(NSArray*)analysis {
-    self.analysis = analysis;
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-        self.preferredContentSize = self.tableView.contentSize;
-    });
-}
 
 @end
