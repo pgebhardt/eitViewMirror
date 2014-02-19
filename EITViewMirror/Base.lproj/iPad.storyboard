@@ -96,6 +96,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="q7F-Oo-aRe" secondAttribute="trailing" constant="20" id="5fW-fW-fPq"/>
                             <constraint firstItem="nBn-Wj-HH0" firstAttribute="top" secondItem="q7F-Oo-aRe" secondAttribute="bottom" constant="20" id="kFG-sn-dzf"/>

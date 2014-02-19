@@ -10,6 +10,7 @@
 #import "ESTElectrodesRenderer.h"
 #import "ESTImpedanceRenderer.h"
 #import "ESTMirrorClient.h"
+#import "ESTRotateGestureRecognizer.h"
 
 @interface ESTImageViewController : GLKViewController
 
@@ -19,5 +20,6 @@
 
 - (IBAction)infoButtonPressed:(id)sender;
 - (IBAction)calibrateButtonPressed:(id)sender;
+-(void)updateViewRotation:(ESTRotateGestureRecognizer*)gestureRecognizer;
 
 @end

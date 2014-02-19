@@ -29,6 +29,7 @@
 		5F6C4E3418A388C9004CE32E /* ESTMirrorClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */; };
 		5FB012FD18A3B16100B56321 /* ESTImpedanceRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB012FC18A3B16100B56321 /* ESTImpedanceRenderer.m */; };
 		5FBB0EFE18A2F03900164DD2 /* ESTElectrodesRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */; };
+		5FC2C4F318B566D400C8B753 /* ESTRotateGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2C4F218B566D400C8B753 /* ESTRotateGestureRecognizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,8 @@
 		5FB012FC18A3B16100B56321 /* ESTImpedanceRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTImpedanceRenderer.m; sourceTree = "<group>"; };
 		5FBB0EFC18A2F03900164DD2 /* ESTElectrodesRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTElectrodesRenderer.h; sourceTree = "<group>"; };
 		5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTElectrodesRenderer.m; sourceTree = "<group>"; };
+		5FC2C4F118B566D400C8B753 /* ESTRotateGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTRotateGestureRecognizer.h; sourceTree = "<group>"; };
+		5FC2C4F218B566D400C8B753 /* ESTRotateGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTRotateGestureRecognizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,8 @@
 				5F3C1EF118A51B87007E228A /* ESTAnalysisViewController.m */,
 				5F6C4E3218A388C9004CE32E /* ESTMirrorClient.h */,
 				5F6C4E3318A388C9004CE32E /* ESTMirrorClient.m */,
+				5FC2C4F118B566D400C8B753 /* ESTRotateGestureRecognizer.h */,
+				5FC2C4F218B566D400C8B753 /* ESTRotateGestureRecognizer.m */,
 				5F0FEB7818A7C622006D150B /* iPad.storyboard */,
 				5F4B4F1818A26B03008FF741 /* Images.xcassets */,
 				5FBB0EFF18A2F90900164DD2 /* Renderer */,
@@ -328,6 +333,7 @@
 				5F6C4E3418A388C9004CE32E /* ESTMirrorClient.m in Sources */,
 				5F4B4F1718A26B03008FF741 /* ESTAppDelegate.m in Sources */,
 				5F3C1EF218A51B87007E228A /* ESTAnalysisViewController.m in Sources */,
+				5FC2C4F318B566D400C8B753 /* ESTRotateGestureRecognizer.m in Sources */,
 				5FBB0EFE18A2F03900164DD2 /* ESTElectrodesRenderer.m in Sources */,
 				5F6C4E3118A38439004CE32E /* ESTConnectViewController.m in Sources */,
 			);

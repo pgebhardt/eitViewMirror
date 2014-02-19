@@ -15,9 +15,9 @@
 @property (nonatomic, strong) ESTAnalysisViewController* analysisViewController;
 @property (nonatomic, strong) UIPopoverController* analysisPopoverController;
 @property (nonatomic, strong) GLKBaseEffect* baseEffect;
-@property (nonatomic, assign) CGPoint oldTouchPoint;
 @property (nonatomic, assign) GLfloat xAxisRotation;
 @property (nonatomic, assign) GLfloat zAxisRotation;
+
 
 @end
 
@@ -35,6 +35,10 @@
     // init properties
     self.analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
     self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
+    
+    // init rotate gesture recognizer
+    ESTRotateGestureRecognizer* rotateGestureRecognizer = [[ESTRotateGestureRecognizer alloc] initWithTarget:self action:@selector(updateViewRotation:)];
+    [self.view addGestureRecognizer:rotateGestureRecognizer];
     
     // initialize open gl
     [EAGLContext setCurrentContext:self.context];
@@ -86,6 +90,11 @@
     [self.analysisViewController updateWithMirrorClient:self.mirrorClient failure:errorHandler];
 }
 
+-(void)updateViewRotation:(ESTRotateGestureRecognizer *)gestureRecognizer {
+    self.xAxisRotation += gestureRecognizer.xAxisRotation;
+    self.zAxisRotation += gestureRecognizer.zAxisRotation;
+}
+
 #pragma mark - GLKViewDelegate
 
 -(void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
@@ -102,38 +111,6 @@
 -(void)update {
     [self updateBaseEffect];
     [self updateData];
-}
-
-#pragma mark - Touch Events
-
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    // save start touch point
-    self.oldTouchPoint = [touches.allObjects[0] locationInView:self.view];
-}
-
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    // change rotation angles according to finger position relative to last touch event event
-    CGPoint newTouchPoint = [touches.allObjects[0] locationInView:self.view];
-    
-    self.xAxisRotation += 2e-1 * (newTouchPoint.y - self.oldTouchPoint.y);
-    if (fabsf(fmodf(self.xAxisRotation, 360.0)) < 90.0 || fabsf(fmodf(self.xAxisRotation, 360.0)) >= 270.0) {
-        if (newTouchPoint.y < self.view.bounds.size.height / 2) {
-            self.zAxisRotation -= 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
-        else {
-            self.zAxisRotation += 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
-    }
-    else {
-        if (newTouchPoint.y < self.view.bounds.size.height / 2) {
-            self.zAxisRotation += 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
-        else {
-            self.zAxisRotation -= 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
-    }
-    
-    self.oldTouchPoint = newTouchPoint;
 }
 
 @end
