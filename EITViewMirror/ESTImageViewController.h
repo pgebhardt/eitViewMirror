@@ -14,8 +14,7 @@
 @interface ESTImageViewController : GLKViewController
 
 @property (nonatomic, strong) EAGLContext* context;
-@property (nonatomic, strong) ESTElectrodesRenderer* electrodesRenderer;
-@property (nonatomic, strong) ESTImpedanceRenderer* impedanceRenderer;
+@property (nonatomic, strong) NSArray* renderer;
 @property (nonatomic, strong) ESTMirrorClient* mirrorClient;
 
 - (IBAction)infoButtonPressed:(id)sender;

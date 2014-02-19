@@ -8,6 +8,7 @@
 
 #import "ESTImageViewController.h"
 #import "ESTAnalysisViewController.h"
+#import "ESTRenderer.h"
 
 @interface ESTImageViewController ()
 
@@ -93,37 +94,28 @@
 }
 
 -(void)updateData {
-    // fetch new data
-    if (!self.isUpdating) {
-        // request
-        self.updating = YES;
-        [self.mirrorClient request:ESTMirrorClientRequestVerticesUpdate withSuccess:^(NSData* vertices) {
-            [self.mirrorClient request:ESTMirrorClientRequestColorsUpdate withSuccess:^(NSData* colors) {
-                // update impedance renderer
-                [self.impedanceRenderer updateVertexData:vertices colorsData:colors];
+    // error handler for returning to connect screen on error
+    void (^errorHandler)(NSError* error) = ^(NSError* error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    };
+    
+    // update renderer
+    for (id<ESTRenderer> renderer in self.renderer) {
+        [renderer updateWithMirrorClient:self.mirrorClient failure:errorHandler];
+    }
+    
+    // update analysis view
+    if (self.analysisViewController.view.window) {
+        if (!self.isUpdating) {
+            [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
+                NSDictionary* analysis = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
+                [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
                 
-                // update analysis table
-                if (self.analysisViewController.view.window) {
-                    [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
-                        NSDictionary* analysis = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
-                        [self.analysisViewController updateAnalysis:analysis[@"analysis"]];
-                        
-                        self.updating = NO;
-                    } failure:nil];
-                }
-                else {
-                    self.updating = NO;
-                }
-            } failure:^(NSError *error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.navigationController popViewControllerAnimated:YES];
-                });
-            }];
-        } failure:^(NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController popViewControllerAnimated:YES];
-            });
-        }];
+                self.updating = NO;
+            } failure:nil];
+        }
     }
 }
 
@@ -133,8 +125,9 @@
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // draw renderer
-    [self.electrodesRenderer drawInRect:rect];
-    [self.impedanceRenderer drawInRect:rect];
+    for (id<ESTRenderer> renderer in self.renderer) {
+        [renderer drawInRect:rect];
+    }
 }
 
 #pragma mark - GLKViewController

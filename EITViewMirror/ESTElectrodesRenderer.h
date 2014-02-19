@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKit.h>
+#import "ESTRenderer.h"
 
-@interface ESTElectrodesRenderer : NSObject
+@interface ESTElectrodesRenderer : NSObject<ESTRenderer>
 
 -(id)initWithVertexAndColorData:(NSData*)data;
--(void)drawInRect:(CGRect)rect;
 
 @property (nonatomic, assign, readonly) NSInteger count;
 

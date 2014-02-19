@@ -43,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F03BFB918B5564600A22816 /* ESTRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESTRenderer.h; sourceTree = "<group>"; };
 		5F0FEB7918A7C62E006D150B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/iPad.storyboard; sourceTree = "<group>"; };
 		5F0FEB7A18A7C639006D150B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/iPad.strings; sourceTree = "<group>"; };
 		5F0FEB7B18A7C639006D150B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -200,6 +201,7 @@
 				5FBB0EFD18A2F03900164DD2 /* ESTElectrodesRenderer.m */,
 				5FB012FB18A3B16100B56321 /* ESTImpedanceRenderer.h */,
 				5FB012FC18A3B16100B56321 /* ESTImpedanceRenderer.m */,
+				5F03BFB918B5564600A22816 /* ESTRenderer.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";

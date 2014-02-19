@@ -17,7 +17,7 @@
     
     // init properties
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    self.mirrorClient = [[ESTMirrorClient alloc] init];
+    self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:[NSURL URLWithString:@"http://127.0.0.1:3003"]];
     
     // observe keyboard
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLayoutForKeyboard:) name:UIKeyboardWillShowNotification object:nil];
@@ -79,8 +79,7 @@
         // init properties of image view controller
         ESTImageViewController* destinationViewController = (ESTImageViewController*)segue.destinationViewController;
         destinationViewController.context = self.context;
-        destinationViewController.electrodesRenderer = self.electrodesRenderer;
-        destinationViewController.impedanceRenderer = self.impedanceRenderer;
+        destinationViewController.renderer = @[self.electrodesRenderer, self.impedanceRenderer];
         destinationViewController.mirrorClient = self.mirrorClient;
         destinationViewController.navigationItem.title = self.addressField.text;
     }

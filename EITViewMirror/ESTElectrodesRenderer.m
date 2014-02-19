@@ -39,6 +39,9 @@
     return self;
 }
 
+-(void)updateWithMirrorClient:(ESTMirrorClient *)mirrorClient failure:(void (^)(NSError *))failure {    
+}
+
 -(void)dealloc {
     // cleanup vertex buffer
     glDeleteBuffers(1, &_vertexBuffer);
