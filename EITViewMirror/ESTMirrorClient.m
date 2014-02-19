@@ -27,11 +27,11 @@ static NSArray* requestStrings = nil;
     requestStrings = @[@"electrodes", @"vertices", @"colors", @"vertices-update", @"colors-update", @"analysis-update", @"calibrate"];
 }
 
--(id)initWithHostAddress:(NSURL *)hostAddress {
+-(id)init {
     if (self = [super init]) {
         // init properties
-        self.hostAddress = hostAddress;
-
+        self.hostAddress = [NSURL URLWithString:@"http://127.0.0.1:3003"];
+        
         // create and init url session
         NSURLSessionConfiguration* sessionConfiguration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         sessionConfiguration.allowsCellularAccess = NO;
@@ -39,6 +39,15 @@ static NSArray* requestStrings = nil;
         sessionConfiguration.timeoutIntervalForResource = 6.0;
         sessionConfiguration.HTTPMaximumConnectionsPerHost = 1;
         self.urlSession = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+    }
+    
+    return self;
+}
+
+-(id)initWithHostAddress:(NSURL *)hostAddress {
+    if (self = [self init]) {
+        // init properties
+        self.hostAddress = hostAddress;
     }
     
     return self;

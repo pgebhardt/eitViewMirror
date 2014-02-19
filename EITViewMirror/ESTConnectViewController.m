@@ -17,7 +17,7 @@
     
     // init properties
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    self.mirrorClient = [[ESTMirrorClient alloc] initWithHostAddress:[NSURL URLWithString:@"http://127.0.0.1:3003"]];
+    self.mirrorClient = [[ESTMirrorClient alloc] init];
     
     // observe keyboard
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLayoutForKeyboard:) name:UIKeyboardWillShowNotification object:nil];
