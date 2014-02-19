@@ -35,9 +35,7 @@
     
     // init properties
     self.analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
-    }
+    self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
     
     // initialize open gl
     [EAGLContext setCurrentContext:self.context];
@@ -53,22 +51,8 @@
     self.updating = NO;
 }
 
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    // prevent pausing of event loop when showing analysis view on iPhone
-    if (self.analysisViewController.view.window) {
-        self.paused = NO;
-    }
-}
-
 - (IBAction)infoButtonPressed:(id)sender {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.analysisPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-    else {
-        [self.navigationController pushViewController:self.analysisViewController animated:YES];
-    }
+    [self.analysisPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (IBAction)calibrateButtonPressed:(id)sender {
@@ -107,7 +91,7 @@
     }
     
     // update analysis view
-    if (self.analysisViewController.view.window) {
+    if (self.analysisPopoverController.isPopoverVisible) {
         if (!self.isUpdating) {
             [self.mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
                 NSDictionary* analysis = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];

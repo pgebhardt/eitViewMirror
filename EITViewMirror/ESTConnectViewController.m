@@ -94,9 +94,7 @@
 
 -(void)updateLayoutForKeyboard:(NSNotification *)notification {
     // animate only in landscape
-    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&
-        UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) ||
-        UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         // extract offset and animation duration from notification
         CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
         NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
