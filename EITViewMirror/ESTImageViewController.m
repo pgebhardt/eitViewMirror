@@ -17,7 +17,8 @@
 @property (nonatomic, strong) GLKBaseEffect* baseEffect;
 @property (nonatomic, assign) GLfloat xAxisRotation;
 @property (nonatomic, assign) GLfloat zAxisRotation;
-
+@property (nonatomic, assign) GLfloat zoomFactor;
+@property (nonatomic, assign) GLfloat oldZoomFactor;
 
 @end
 
@@ -35,8 +36,13 @@
     // init properties
     self.analysisViewController = [[ESTAnalysisViewController alloc] initWithStyle:UITableViewStylePlain];
     self.analysisPopoverController = [[UIPopoverController alloc] initWithContentViewController:self.analysisViewController];
+    self.zoomFactor = self.oldZoomFactor = 1.0;
     
-    // init rotate gesture recognizer
+    // init gesture recognizer for rotation and zooming
+    UIPinchGestureRecognizer* pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(updateZoomFactor:)];
+    pinchGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:pinchGestureRecognizer];
+    
     ESTRotateGestureRecognizer* rotateGestureRecognizer = [[ESTRotateGestureRecognizer alloc] initWithTarget:self action:@selector(updateViewRotation:)];
     rotateGestureRecognizer.delegate = self;
     [self.view addGestureRecognizer:rotateGestureRecognizer];
@@ -56,16 +62,6 @@
     [self.mirrorClient request:ESTMirrorClientRequestCalibration];
 }
 
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    // Prevent gesture recognizer on connect button
-    if (touch.view == self.connectButton) {
-        return NO;
-    }
-    else {
-        return YES;
-    }
-}
-
 -(void)updateBaseEffect {
     // set projection matrix
     float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
@@ -79,6 +75,7 @@
     }
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.xAxisRotation), 1.0, 0.0, 0.0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.zAxisRotation), 0.0, 0.0, 1.0);
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, self.zoomFactor, self.zoomFactor, self.zoomFactor);
     self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
     
     [self.baseEffect prepareToDraw];
@@ -86,7 +83,7 @@
 
 -(void)updateData {
     // error handler for returning to connect screen on error
-    void (^errorHandler)(NSError* error) = ^(NSError* error) {
+    void (^errorHandler)(NSError*) = ^(NSError* error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController popViewControllerAnimated:YES];
         });
@@ -105,7 +102,30 @@
 
 -(void)updateViewRotation:(ESTRotateGestureRecognizer *)gestureRecognizer {
     self.xAxisRotation += gestureRecognizer.xAxisRotation;
-    self.zAxisRotation += gestureRecognizer.zAxisRotation;
+    if (fabsf(fmodf(self.xAxisRotation, 360.0)) < 90.0 || fabsf(fmodf(self.xAxisRotation, 360.0)) >= 270.0) {
+        self.zAxisRotation += gestureRecognizer.zAxisRotation;
+    }
+    else {
+        self.zAxisRotation -= gestureRecognizer.zAxisRotation;
+    }
+}
+
+-(void)updateZoomFactor:(UIPinchGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        self.oldZoomFactor = self.zoomFactor;
+    }
+    self.zoomFactor = self.oldZoomFactor * gestureRecognizer.scale;
+}
+
+#pragma mark - UIGesturRecognizerDelegate
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    // Prevent gesture recognizer on connect button
+    return ![touch.view isKindOfClass:[UIButton class]];
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 #pragma mark - GLKViewDelegate

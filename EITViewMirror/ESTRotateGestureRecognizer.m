@@ -28,12 +28,15 @@
     [super touchesBegan:touches withEvent:event];
     
     // check for only one finger gesture
-    if ([touches count] != 1 || [[touches anyObject] tapCount] > 1) {
+    if ([touches count] != 1 || [[touches anyObject] tapCount] > 1 ||
+        self.state == UIGestureRecognizerStateBegan ||
+        self.state == UIGestureRecognizerStateChanged) {
         self.state = UIGestureRecognizerStateFailed;
         return;
     }
     
     // save start touch point
+    self.state = UIGestureRecognizerStateBegan;
     self.oldTouchPoint = [touches.anyObject locationInView:self.view];
 }
 
@@ -47,21 +50,11 @@
     CGPoint newTouchPoint = [touches.anyObject locationInView:self.view];
     
     self.xAxisRotation = 2e-1 * (newTouchPoint.y - self.oldTouchPoint.y);
-    if (fabsf(fmodf(self.xAxisRotation, 360.0)) < 90.0 || fabsf(fmodf(self.xAxisRotation, 360.0)) >= 270.0) {
-        if (newTouchPoint.y < self.view.bounds.size.height / 2) {
-            self.zAxisRotation = -2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
-        else {
-            self.zAxisRotation = 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
+    if (newTouchPoint.y < self.view.bounds.size.height / 2) {
+        self.zAxisRotation = -2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
     }
     else {
-        if (newTouchPoint.y < self.view.bounds.size.height / 2) {
-            self.zAxisRotation = 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
-        else {
-            self.zAxisRotation = -2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
-        }
+        self.zAxisRotation = 2e-1 * (newTouchPoint.x - self.oldTouchPoint.x);
     }
     
     self.state = UIGestureRecognizerStateChanged;

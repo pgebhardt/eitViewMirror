@@ -17,10 +17,10 @@
 @property (nonatomic, strong) EAGLContext* context;
 @property (nonatomic, strong) NSArray* renderer;
 @property (nonatomic, strong) ESTMirrorClient* mirrorClient;
-@property (weak, nonatomic) IBOutlet UIButton *connectButton;
 
 - (IBAction)infoButtonPressed:(id)sender;
 - (IBAction)calibrateButtonPressed:(id)sender;
 -(void)updateViewRotation:(ESTRotateGestureRecognizer*)gestureRecognizer;
+-(void)updateZoomFactor:(UIPinchGestureRecognizer*)gestureRecognizer;
 
 @end

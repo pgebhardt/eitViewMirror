@@ -113,9 +113,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <size key="freeformSize" width="768" height="1024"/>
-                    <connections>
-                        <outlet property="connectButton" destination="q7F-Oo-aRe" id="zD7-SM-YMC"/>
-                    </connections>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5R9-Kw-g83" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
