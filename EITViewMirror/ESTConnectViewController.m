@@ -27,6 +27,12 @@
     self.addressField.delegate = self;
 }
 
+-(void)dealloc {
+    // remove keyboard observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillShowNotification];
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillHideNotification];
+}
+
 - (IBAction)connect:(id)sender {
     // hide keyboard and disable connect button
     [self.addressField resignFirstResponder];
@@ -96,20 +102,24 @@
     // animate only in landscape
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         // extract offset and animation duration from notification
-        CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-        CGFloat offset = UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? keyboardFrame.size.width : keyboardFrame.size.height;
+        CGRect keyboardEndFrameWindow = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        double keyboardTransitionDuration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        UIViewAnimationCurve keyboardTransitionAnimationCurve = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
         
         // annimate update of constraint accordint to keyboard fadetime
         if ([notification.name isEqualToString:UIKeyboardWillShowNotification]) {
-            self.verticalPostitionConstrain.constant += offset / 3;
+            self.verticalPostitionConstrain.constant += keyboardEndFrameWindow.size.width / 3;
         }
         else {
-            self.verticalPostitionConstrain.constant -= offset / 3;
+            self.verticalPostitionConstrain.constant -= keyboardEndFrameWindow.size.width / 3;
         }
-        [UIView animateWithDuration:animationDuration animations:^{
-            [self.view layoutIfNeeded];
-        }];
+        [UIView animateKeyframesWithDuration:keyboardTransitionDuration
+                                       delay:0.0
+                                     options:(keyboardTransitionAnimationCurve << 16 | UIViewAnimationOptionBeginFromCurrentState)
+                                  animations:^{
+                                      [self.view layoutIfNeeded];
+                                  }
+                                  completion:nil];
     }
 }
 

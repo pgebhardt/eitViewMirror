@@ -12,11 +12,12 @@
 #import "ESTMirrorClient.h"
 #import "ESTRotateGestureRecognizer.h"
 
-@interface ESTImageViewController : GLKViewController
+@interface ESTImageViewController : GLKViewController<UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) EAGLContext* context;
 @property (nonatomic, strong) NSArray* renderer;
 @property (nonatomic, strong) ESTMirrorClient* mirrorClient;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
 
 - (IBAction)infoButtonPressed:(id)sender;
 - (IBAction)calibrateButtonPressed:(id)sender;

@@ -38,6 +38,7 @@
     
     // init rotate gesture recognizer
     ESTRotateGestureRecognizer* rotateGestureRecognizer = [[ESTRotateGestureRecognizer alloc] initWithTarget:self action:@selector(updateViewRotation:)];
+    rotateGestureRecognizer.delegate = self;
     [self.view addGestureRecognizer:rotateGestureRecognizer];
     
     // initialize open gl
@@ -53,6 +54,16 @@
 
 - (IBAction)calibrateButtonPressed:(id)sender {
     [self.mirrorClient request:ESTMirrorClientRequestCalibration];
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    // Prevent gesture recognizer on connect button
+    if (touch.view == self.connectButton) {
+        return NO;
+    }
+    else {
+        return YES;
+    }
 }
 
 -(void)updateBaseEffect {
@@ -87,7 +98,9 @@
     }
     
     // update analysis view
-    [self.analysisViewController updateWithMirrorClient:self.mirrorClient failure:errorHandler];
+    if (self.analysisPopoverController.isPopoverVisible) {
+        [self.analysisViewController updateWithMirrorClient:self.mirrorClient failure:errorHandler];
+    }
 }
 
 -(void)updateViewRotation:(ESTRotateGestureRecognizer *)gestureRecognizer {
