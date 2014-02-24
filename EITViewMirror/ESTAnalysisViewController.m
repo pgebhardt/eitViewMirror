@@ -29,6 +29,7 @@
 
 -(void)updateWithMirrorClient:(ESTMirrorClient *)mirrorClient failure:(void (^)(NSError *))failure {
     if (!self.isUpdating) {
+        self.updating = YES;
         [mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
             NSDictionary* analysisDict = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
             self.analysis = analysisDict[@"analysis"];
