@@ -10,7 +10,6 @@
 
 @interface ESTAnalysisViewController ()
 
-@property (nonatomic, assign, getter = isUpdating) BOOL updating;
 @property (nonatomic, strong) NSArray* analysis;
 
 @end
@@ -20,34 +19,24 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    // init properties
-    self.updating = NO;
-    
     // disable scrolling to prevent glitches
     self.tableView.scrollEnabled = NO;
 }
 
 -(void)updateWithMirrorClient:(ESTMirrorClient *)mirrorClient failure:(void (^)(NSError *))failure {
-    if (!self.isUpdating) {
-        self.updating = YES;
-        [mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
-            NSDictionary* analysisDict = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
-            self.analysis = analysisDict[@"analysis"];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-                self.preferredContentSize = self.tableView.contentSize;
-            });
-
-            self.updating = NO;
-        } failure:^(NSError *error) {
-            self.updating = NO;
-            
-            if (failure) {
-                failure(error);
-            }
-        }];
-    }
+    [mirrorClient request:ESTMirrorClientRequestAnalysisUpdate withSuccess:^(NSData* analysisData) {
+        NSDictionary* analysisDict = [NSJSONSerialization JSONObjectWithData:analysisData options:kNilOptions error:nil];
+        self.analysis = analysisDict[@"analysis"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            self.preferredContentSize = self.tableView.contentSize;
+        });
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
 }
 
 #pragma mark - Table view data source
